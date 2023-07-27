@@ -283,41 +283,35 @@ export default function DisplayAllProducts(props) {
   function display() {
     return (
       <MaterialTable
-        title="List Students"
+        title="List Instructors"
         columns={[
-          { title: "Student ID", field: "studentid" },
-          { title: "Course", field: "course" },
+          { title: "Instructor ID", field: "instructorid" },
+          { title: "Courses", field: "course" },
           { title: "Image", field: "image" },
-          { title: "Full Name", field: "name" },
-          { title: "Instructor", field: "instructor" },
-          { title: "Due", field: "due" },
+          { title: "Name", field: "name" },
+          { title: "Payroll", field: "payment" },
           { title: "Access Till", field: "access" },
-          { title: "Offer", field: "offer" },
           { title: "Status", field: "status" },
           { title: "Enrollment", field: "enrollment" },
         ]}
         data={[
           {
-            studentid: "090510",
-            course: "Full Stack",
+            instructorid: "090510",
+            course: "Full Stack,AWS",
             image: "Mehmet",
-            name: "Mehmet",
-            instructor: "Rohan Jha",
-            due: 2500,
+            name: "Rohan Jha",
+            payment: 25000,
             access: "26 August",
-            offer: "reffered",
             status: "Active",
             enrollment: "Active",
           },
           {
-            studentid: "090512",
-            course: "Finance",
+            instructorid: "090512",
+            course: "Finance,HR",
             image: "Mehak",
-            name: "Mehmet",
-            instructor: "Kavya OJha",
-            due: 1000,
+            name: "Kavya OJha",
+            payment: 17000,
             access: "26 April",
-            offer: "website",
             status: "Deactivated",
             enrollment: "Finished",
           },

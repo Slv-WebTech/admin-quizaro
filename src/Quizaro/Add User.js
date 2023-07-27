@@ -156,30 +156,6 @@ function Products(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
-            <CssTextField
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: "#FFF" },
-              }}
-              inputProps={{ style: { color: "#FFF" } }}
-              label="College Name:"
-              fullWidth
-            />
-          </Grid>
-          <Grid Grid item xs={2}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Year Of Study:
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Year">
-                <MenuItem value={"Ist"}>Ist Year </MenuItem>
-                <MenuItem value={"IInd"}>IInd Year</MenuItem>
-                <MenuItem value={"IIIrd"}>IIIrd Year </MenuItem>
-                <MenuItem value={"IVth"}>IVth Year</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
             Address Details
           </Grid>

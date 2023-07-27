@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar } from "@mui/material";
+import Switch from "@mui/material/Switch";
 // import { borderRadius } from "@mui/system";
 
 import InputLabel from "@mui/material/InputLabel";
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
   subdiv: {
     background: "#7ed6df",
     padding: 20,
-    width: 700,
+    width: "100%",
     marginTop: 5,
   },
 });
@@ -54,6 +55,11 @@ const handleSubmit = () => {
 
 function Products(props) {
   const classes = useStyles();
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return (
     <div className={classes.root}>
@@ -76,45 +82,115 @@ function Products(props) {
       <div className={classes.subdiv}>
         <Grid container spacing={2}>
           <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-           Add Courses
+            Add Courses
           </Grid>
-
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <FormControl fullWidth>
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Stream
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Category"></Select>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Stream">
+                <MenuItem value={"Technical"}>Technical</MenuItem>
+                <MenuItem value={"Core"}>Core</MenuItem>
+                <MenuItem value={"Management"}>Management</MenuItem>
+              </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Certification
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sub Category"></Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Instructor Name
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Brands"></Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Language"
+              label="Course Name"
               fullWidth
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Certification
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Certification">
+                <MenuItem value={"AICTE"}>AICTE </MenuItem>
+                <MenuItem value={"IIIT"}>IIIT </MenuItem>
+                <MenuItem value={"IIT"}>IIT </MenuItem>
+                <MenuItem value={"NIT"}>NIT </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Instructor Name
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Instructor">
+                <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
+                <MenuItem value={"Lokesh Reddy"}>Lokesh Reddy </MenuItem>
+                <MenuItem value={"Yuvraj Quizaro"}>Yuvraj Quizaro </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Language:
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Language">
+                <MenuItem value={"Hindi"}>Hindi </MenuItem>
+                <MenuItem value={"English"}>English </MenuItem>
+                <MenuItem value={"French"}>French </MenuItem>
+                <MenuItem value={"Spanish"}>Spanish </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Institute:
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Institute">
+                <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={1}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Title:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={1.5}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Slug:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="SubTitle"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={3.5}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -125,7 +201,93 @@ function Products(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={1}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Tag:
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Tag">
+                <MenuItem value={"Trending"}>Trending</MenuItem>
+                <MenuItem value={"Most Selling"}>Most Selling</MenuItem>
+                <MenuItem value={"Popular"}>Popular</MenuItem>
+                <MenuItem value={"Beginner"}>Beginner</MenuItem>
+                <MenuItem value={"Intermediate"}>Intermediate</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={1}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Course Tag"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <FormControl fullWidth>
+              Paid: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+            </FormControl>
+          </Grid>
+          <Grid item xs={1}>
+            <FormControl fullWidth>
+              Featured: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+            </FormControl>
+          </Grid>
+          <Grid item xs={4}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Requirements"
+              fullWidth
+            />
+          </Grid>
+
+          <Grid item xs={2.5}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="URL:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={1}>
+            <FormControl fullWidth>
+              Status: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={1.5}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Duration:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={1.5}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Instructor Revenue:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={1.5}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -136,7 +298,7 @@ function Products(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={1.5}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -147,7 +309,7 @@ function Products(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={1.5}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -159,19 +321,19 @@ function Products(props) {
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={1}>
             <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Sales Status
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sales Status">
-                <MenuItem value={"Trending"}>Trending</MenuItem>
-                <MenuItem value={"Most Selling"}>Most Selling</MenuItem>
-                <MenuItem value={"Popular"}>Popular</MenuItem>
-              </Select>
+              Assignment <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
-          <Grid item xs={6} style={{ justifyContent: "center", alignItems: "center" }}>
+
+          <Grid item xs={1}>
+            <FormControl fullWidth>
+              Certificate <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={1.5} style={{ justifyContent: "center", alignItems: "center" }}>
             <label htmlFor="contained-button-file">
               <Input accept="image/*" id="contained-button-file" multiple type="file" />
               <Button
@@ -190,17 +352,18 @@ function Products(props) {
           </Grid>
           <Grid
             item
-            xs={6}
+            xs={2}
             style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Avatar alt="Remy Sharp" variant="rounded" sx={{ width: 70, height: 70 }} />
+            <Avatar alt="Remy Sharp" variant="rounded" sx={{ width: 120, height: 120 }} />
           </Grid>
-
-          <Grid item xs={6}>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
             <Button
               style={{
                 background: "#FFF",
@@ -209,13 +372,13 @@ function Products(props) {
               }}
               variant="contained"
               fullWidth
-              value="submit"
+              value="Add"
               onClick={() => handleSubmit()}
             >
               Submit
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <Button
               style={{
                 background: "#FFF",

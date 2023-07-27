@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   subdiv: {
     background: "#7ed6df",
     padding: 20,
-    width: 700,
+    width: "100%",
     marginTop: 5,
   },
 });
@@ -76,101 +76,207 @@ function Products(props) {
       <div className={classes.subdiv}>
         <Grid container spacing={2}>
           <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-            Add Instructors
+            Personal Details
           </Grid>
-
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Stream
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Category"></Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Certification
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sub Category"></Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Instructor Name
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Brands"></Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Language"
+              label="First Name:"
               fullWidth
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Description"
+              label="Last Name"
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={2.5}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Price"
+              label="Email Id:"
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Offer Price"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <CssTextField
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: "#FFF" },
-              }}
-              inputProps={{ style: { color: "#FFF" } }}
-              label="Offer Available"
+              label="Mobile:"
               fullWidth
             />
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item xs={2}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Password"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Confirm Password"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Detail:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
+            Address Details
+          </Grid>
+          <Grid item xs={4}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Address:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={2}>
             <FormControl fullWidth>
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Sales Status
+                State:
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sales Status">
-                <MenuItem value={"Trending"}>Trending</MenuItem>
-                <MenuItem value={"Most Selling"}>Most Selling</MenuItem>
-                <MenuItem value={"Popular"}>Popular</MenuItem>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="State">
+                <MenuItem value={"Andhra Pradesh"}>Andhra Pradesh </MenuItem>
+                <MenuItem value={"Arunachal Pradesh"}> Arunachal Pradesh</MenuItem>
+                <MenuItem value={"Assam"}>Assam</MenuItem>
+                <MenuItem value={"Bihar"}>Bihar</MenuItem>
+                <MenuItem value={"Chhattisgarh"}>Chhattisgarh</MenuItem>
+                <MenuItem value={"Goa"}>Goa</MenuItem>
+                <MenuItem value={"Gujarat"}>Gujarat</MenuItem>
+                <MenuItem value={"Haryana"}>Haryana</MenuItem>
+                <MenuItem value={"Himachal Pradesh"}>Himachal Pradesh</MenuItem>
+                <MenuItem value={"Jharkhand"}>Jharkhand</MenuItem>
+                <MenuItem value={"Karnataka"}> Karnataka</MenuItem>
+                <MenuItem value={"Kerala"}>Kerala</MenuItem>
+                <MenuItem value={"Madhya Pradesh"}>Madhya Pradesh</MenuItem>
+                <MenuItem value={"Maharashtra"}>Maharashtra</MenuItem>
+                <MenuItem value={"Manipur"}>Manipur</MenuItem>
+                <MenuItem value={"Meghalaya"}>Meghalaya</MenuItem>
+                <MenuItem value={"Mizoram"}>Mizoram</MenuItem>
+                <MenuItem value={"Nagaland"}>Nagaland</MenuItem>
               </Select>
             </FormControl>
           </Grid>
+          <Grid item xs={2}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="City:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Country:
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Country">
+                <MenuItem value={"India"}>India</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Pincode:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
+            Social Profile
+          </Grid>
+          <Grid item xs={3}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Facebook Url:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Twitter Url:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Youtube Url:"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <CssTextField
+              variant="outlined"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              inputProps={{ style: { color: "#FFF" } }}
+              label="Linkedin Url:"
+              fullWidth
+            />
+          </Grid>
+
           <Grid item xs={6} style={{ justifyContent: "center", alignItems: "center" }}>
             <label htmlFor="contained-button-file">
               <Input accept="image/*" id="contained-button-file" multiple type="file" />
@@ -184,7 +290,7 @@ function Products(props) {
                 component="span"
                 fullWidth
               >
-                Upload - Picture
+                Upload - Image
               </Button>
             </label>
           </Grid>
@@ -197,10 +303,11 @@ function Products(props) {
               alignItems: "center",
             }}
           >
-            <Avatar alt="Remy Sharp" variant="rounded" sx={{ width: 70, height: 70 }} />
+            <Avatar alt="Remy Sharp" variant="rounded" sx={{ width: 100, height: 100 }} />
           </Grid>
-
-          <Grid item xs={6}>
+        </Grid>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
             <Button
               style={{
                 background: "#FFF",
@@ -209,13 +316,13 @@ function Products(props) {
               }}
               variant="contained"
               fullWidth
-              value="submit"
+              value="Add"
               onClick={() => handleSubmit()}
             >
               Submit
             </Button>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <Button
               style={{
                 background: "#FFF",

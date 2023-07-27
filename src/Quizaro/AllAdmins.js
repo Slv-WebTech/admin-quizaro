@@ -39,8 +39,8 @@ const useStyles = makeStyles({
   },
   subdiv: {
     background: "#7ed6df",
-    padding: 20,
-    width: 1500,
+    padding: 15,
+    width: "100%",
     marginTop: 5,
   },
   droot: {
@@ -283,41 +283,39 @@ export default function DisplayAllProducts(props) {
   function display() {
     return (
       <MaterialTable
-        title="List Students"
+        title="List Admins"
         columns={[
-          { title: "Student ID", field: "studentid" },
-          { title: "Course", field: "course" },
+          { title: "Login ID", field: "loginid" },
+          { title: "Access", field: "access" },
           { title: "Image", field: "image" },
-          { title: "Full Name", field: "name" },
-          { title: "Instructor", field: "instructor" },
-          { title: "Due", field: "due" },
-          { title: "Access Till", field: "access" },
-          { title: "Offer", field: "offer" },
+          { title: "Name", field: "name" },
+
+          { title: "Access Till", field: "accesstill" },
+
           { title: "Status", field: "status" },
           { title: "Enrollment", field: "enrollment" },
         ]}
         data={[
           {
-            studentid: "090510",
-            course: "Full Stack",
+            loginid: "090510",
+            access: "Courses",
             image: "Mehmet",
             name: "Mehmet",
-            instructor: "Rohan Jha",
-            due: 2500,
-            access: "26 August",
-            offer: "reffered",
+
+            accesstill: "26 August",
+
             status: "Active",
             enrollment: "Active",
           },
           {
-            studentid: "090512",
-            course: "Finance",
+            loginid: "090512",
+            access: "Full LMS",
             image: "Mehak",
             name: "Mehmet",
             instructor: "Kavya OJha",
-            due: 1000,
-            access: "26 April",
-            offer: "website",
+
+            accesstill: "26 April",
+
             status: "Deactivated",
             enrollment: "Finished",
           },

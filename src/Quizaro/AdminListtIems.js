@@ -23,6 +23,8 @@ import FullStack from "./FullStack";
 import AWS from "./AWS";
 import Android from "./Android";
 import CyberSecurity from "./CyberSecurity";
+import AutoCad from "./AutoCad";
+import Stock from "./Stock";
 
 import Dashboard from "./Dashboard";
 import Checkout from "./Checkout";
@@ -34,9 +36,12 @@ import AddCourse from "./Add Course";
 import AddAdmin from "./Add Admin";
 import AddInstructor from "./Add Instructor";
 import AddStudent from "./Add Student";
+import AddUser from "./Add User";
 import UploadVideo from "./Upoad Video";
 import AllStudents from "./AllStudents";
 import AllCourses from "./AllCourses";
+import AllInstructors from "./AllInstructors";
+import AllAdmins from "./AllAdmins";
 
 export default function AdminListItems(props) {
   const handleClick = (v) => {
@@ -48,6 +53,8 @@ export default function AdminListItems(props) {
   const [usersopen, setUsersOpen] = React.useState(true);
   const [display, setDisplay] = React.useState(true);
   const [technicalopen, setTechnicalopen] = React.useState(true);
+  const [coreopen, setCoreopen] = React.useState(true);
+  const [managementopen, setManagementopen] = React.useState(true);
 
   const handleCourseOpen = () => {
     setCourseOpen(!courseopen);
@@ -63,6 +70,12 @@ export default function AdminListItems(props) {
   };
   const handleTechicalopen = () => {
     setTechnicalopen(!technicalopen);
+  };
+  const handleCoreopen = () => {
+    setCoreopen(!coreopen);
+  };
+  const handleManagementopen = () => {
+    setManagementopen(!managementopen);
   };
   return (
     <React.Fragment>
@@ -128,18 +141,52 @@ export default function AdminListItems(props) {
               </ListItemButton>
             </List>
           </Collapse>
-          <ListItemButton>
+          <ListItemButton onClick={handleCoreopen}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
-            <ListItemText primary="Human Resources" />
+            <ListItemText primary="Core" />
+            {coreopen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-          <ListItemButton>
+          <Collapse in={coreopen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton onClick={() => handleClick(<AutoCad setViewContainer={props.setViewContainer} />)}>
+                <ListItemIcon>
+                  <FilterListOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="AutoCad" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+          <ListItemButton onClick={handleManagementopen}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
-            <ListItemText primary="Finance" />
+            <ListItemText primary="Management" />
+            {technicalopen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
+          <Collapse in={managementopen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton onClick={() => handleClick(<Stock setViewContainer={props.setViewContainer} />)}>
+                <ListItemIcon>
+                  <FilterListOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Stock Market" />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary="Human Resources" />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary="Finance" />
+              </ListItemButton>
+            </List>
+          </Collapse>
         </List>
       </Collapse>
 
@@ -190,6 +237,12 @@ export default function AdminListItems(props) {
       </ListItemButton>
       <Collapse in={formopen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
+          <ListItemButton onClick={() => handleClick(<AddUser setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Add User" />
+          </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddStudent setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
               <StarBorder />
@@ -237,23 +290,17 @@ export default function AdminListItems(props) {
             </ListItemIcon>
             <ListItemText primary="All Student" />
           </ListItemButton>
-          <ListItemButton onClick={() => handleClick(<AllStudents setViewContainer={props.setViewContainer} />)}>
+          <ListItemButton onClick={() => handleClick(<AllAdmins setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="All Admins" />
           </ListItemButton>
-          <ListItemButton onClick={() => handleClick(<AllStudents setViewContainer={props.setViewContainer} />)}>
+          <ListItemButton onClick={() => handleClick(<AllInstructors setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="All Instructors" />
-          </ListItemButton>
-          <ListItemButton onClick={() => handleClick(<AllStudents setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="All Courses" />
           </ListItemButton>
         </List>
       </Collapse>
