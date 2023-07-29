@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar } from "@mui/material";
 import Switch from "@mui/material/Switch";
+import Swal from "sweetalert2";
+
 // import { borderRadius } from "@mui/system";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { postDataImage } from "./FetchNodeServices";
 
 const useStyles = makeStyles({
   root: {
@@ -41,24 +44,111 @@ const Input = styled("input")({
   display: "none",
 });
 
-const handleSubmit = () => {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyqMtsKkZydlNcJ0zcfUZxFSc5SCI2f12m8skrhelqEc263IUqpjxc-z0g_IaYqYrc4/exec";
-  const form = document.forms["google-sheet"];
+// const handleSubmit = () => {
+//   const scriptURL = "https://script.google.com/macros/s/AKfycbyqMtsKkZydlNcJ0zcfUZxFSc5SCI2f12m8skrhelqEc263IUqpjxc-z0g_IaYqYrc4/exec";
+//   const form = document.forms["google-sheet"];
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    fetch(scriptURL, { method: "POST", body: new FormData(form) })
-      .then((response) => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
-      .catch((error) => console.error("Error!", error.message));
-  });
-};
+//   form.addEventListener("submit", (e) => {
+//     e.preventDefault();
+//     fetch(scriptURL, { method: "POST", body: new FormData(form) })
+//       .then((response) => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
+//       .catch((error) => console.error("Error!", error.message));
+//   });
+// };
 
-function Products(props) {
+function Courses(props) {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState(true);
+  const [stream, setStream] = useState("");
+  const [coursename, setCourseName] = useState("");
+  const [certification, setCertification] = useState("");
+  const [instructorname, setInstructorName] = useState("");
+  const [language, setLanguage] = useState("");
+  const [institute, setInstitute] = useState("");
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [subtitle, setSubTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [tag, setTag] = useState("");
+  const [coursetag, setCourseTag] = useState("");
+  const [paid, setPaid] = useState(true);
+  const [featured, setFeatured] = useState(true);
+  const [requirements, setRequirements] = useState("");
+  const [url, setUrl] = useState("");
+  const [status, setStatus] = useState(true);
+  const [duration, setDuration] = useState("");
+  const [instructorrevenue, setInstructorRevenue] = useState("");
+  const [price, setPrice] = useState("");
+  const [offerprice, setOfferPrice] = useState("");
+  const [offeravailable, setOfferAvailable] = useState("");
+  const [assignment, setAssignment] = useState(true);
+  const [certificate, setCertificate] = useState(true);
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
+  const [icon, setIcon] = useState({ bytes: "", filename: "/quizaro.png" });
+
+  const handleIconChange = (event) => {
+    setIcon({ bytes: event.target.files[0], filename: URL.createObjectURL(event.target.files[0]) });
+  };
+
+  const handleSubmit = async () => {
+    var formData = new FormData();
+    formData.append("stream", stream);
+    formData.append("coursename", coursename);
+    formData.append("certification", certification);
+    formData.append("instructorname", instructorname);
+    formData.append("language", language);
+    formData.append("institute", institute);
+    formData.append("title", title);
+    formData.append("slug", slug);
+    formData.append("subtitle", subtitle);
+    formData.append("description", description);
+    formData.append("tag", tag);
+    formData.append("coursetag", coursetag);
+    formData.append("paid", paid);
+    formData.append("featured", featured);
+    formData.append("requirements", requirements);
+    formData.append("url", url);
+    formData.append("status", status);
+    formData.append("duration", duration);
+    formData.append("instructorrevenue", instructorrevenue);
+    formData.append("price", price);
+    formData.append("offerprice", offerprice);
+    formData.append("offeravailable", offeravailable);
+    formData.append("assignment", assignment);
+    formData.append("certificate", certificate);
+    formData.append("icon", icon.bytes);
+    var result = await postDataImage("courses/savecourses", formData);
+      if (result.result) {
+      Swal.fire({
+        icon: "success",
+        title: "Your Course has been saved",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+     
+    } else {
+      Swal.fire({
+        icon: "fail",
+        title: "Fail to submit Course",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  
+  };
+  const handlePaidChange = (event) => {
+    setPaid(event.target.checked);
+  };
+  const handleFeaturedChange = (event) => {
+    setFeatured(event.target.checked);
+  };
+  const handleStatusChange = (event) => {
+    setStatus(event.target.checked);
+  };
+  const handleAssignmentChange = (event) => {
+    setAssignment(event.target.checked);
+  };
+  const handleCertificateChange = (event) => {
+    setCertificate(event.target.checked);
   };
 
   return (
@@ -89,7 +179,7 @@ function Products(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Stream
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Stream">
+              <Select onChange={(event) => setStream(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="Stream">
                 <MenuItem value={"Technical"}>Technical</MenuItem>
                 <MenuItem value={"Core"}>Core</MenuItem>
                 <MenuItem value={"Management"}>Management</MenuItem>
@@ -104,6 +194,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Course Name"
+              onChange={(event) => setCourseName(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -112,7 +203,12 @@ function Products(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Certification
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Certification">
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                onChange={(event) => setCertification(event.target.value)}
+                label="Certification"
+              >
                 <MenuItem value={"AICTE"}>AICTE </MenuItem>
                 <MenuItem value={"IIIT"}>IIIT </MenuItem>
                 <MenuItem value={"IIT"}>IIT </MenuItem>
@@ -125,7 +221,7 @@ function Products(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Instructor Name
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Instructor">
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setInstructorName(event.target.value)} label="Instructor">
                 <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
                 <MenuItem value={"Lokesh Reddy"}>Lokesh Reddy </MenuItem>
                 <MenuItem value={"Yuvraj Quizaro"}>Yuvraj Quizaro </MenuItem>
@@ -137,7 +233,7 @@ function Products(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Language:
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Language">
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setLanguage(event.target.value)} label="Language">
                 <MenuItem value={"Hindi"}>Hindi </MenuItem>
                 <MenuItem value={"English"}>English </MenuItem>
                 <MenuItem value={"French"}>French </MenuItem>
@@ -151,7 +247,7 @@ function Products(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Institute:
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Institute">
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setInstitute(event.target.value)} label="Institute">
                 <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
               </Select>
             </FormControl>
@@ -165,6 +261,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Title:"
+              onChange={(event) => setTitle(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -176,6 +273,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Slug:"
+              onChange={(event) => setSlug(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -187,6 +285,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="SubTitle"
+              onChange={(event) => setSubTitle(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -198,6 +297,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Description"
+              onChange={(event) => setDescription(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -206,7 +306,7 @@ function Products(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Tag:
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Tag">
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setTag(event.target.value)} label="Tag">
                 <MenuItem value={"Trending"}>Trending</MenuItem>
                 <MenuItem value={"Most Selling"}>Most Selling</MenuItem>
                 <MenuItem value={"Popular"}>Popular</MenuItem>
@@ -223,17 +323,19 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Course Tag"
+              onChange={(event) => setCourseTag(event.target.value)}
               fullWidth
             />
           </Grid>
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Paid: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+              Paid:
+              <Switch onChange={handlePaidChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Featured: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+              Featured: <Switch onChange={handleFeaturedChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
           <Grid item xs={4}>
@@ -244,6 +346,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Requirements"
+              onChange={(event) => setRequirements(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -256,12 +359,13 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="URL:"
+              onChange={(event) => setUrl(event.target.value)}
               fullWidth
             />
           </Grid>
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Status: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+              Status: <Switch onChange={handleStatusChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
 
@@ -273,6 +377,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Duration:"
+              onChange={(event) => setDuration(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -284,6 +389,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Instructor Revenue:"
+              onChange={(event) => setInstructorRevenue(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -295,6 +401,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Price"
+              onChange={(event) => setPrice(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -306,6 +413,7 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Offer Price"
+              onChange={(event) => setOfferPrice(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -317,25 +425,26 @@ function Products(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Offer Available"
+              onChange={(event) => setOfferAvailable(event.target.value)}
               fullWidth
             />
           </Grid>
 
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Assignment <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+              Assignment <Switch onChange={handleAssignmentChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
 
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Certificate <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+              Certificate <Switch onChange={handleCertificateChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
 
           <Grid item xs={1.5} style={{ justifyContent: "center", alignItems: "center" }}>
             <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
+              <Input onChange={(event) => handleIconChange(event)} accept="image/*" id="contained-button-file" multiple type="file" />
               <Button
                 style={{
                   background: "#FFF",
@@ -359,12 +468,13 @@ function Products(props) {
               alignItems: "center",
             }}
           >
-            <Avatar alt="Remy Sharp" variant="rounded" sx={{ width: 120, height: 120 }} />
+            <Avatar alt="Remy Sharp" variant="rounded" src={icon.filename} sx={{ width: 100, height: 100 }} />
           </Grid>
         </Grid>
         <Grid container spacing={2}>
           <Grid item xs={2}>
             <Button
+              onClick={() => handleSubmit()}
               style={{
                 background: "#FFF",
                 color: "#7ed6df",
@@ -372,8 +482,6 @@ function Products(props) {
               }}
               variant="contained"
               fullWidth
-              value="Add"
-              onClick={() => handleSubmit()}
             >
               Submit
             </Button>
@@ -397,4 +505,4 @@ function Products(props) {
   );
 }
 
-export default Products;
+export default Courses;
