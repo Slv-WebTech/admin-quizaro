@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
-
+import { getData, postData, serverURL } from "./FetchNodeServices";
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Swal from "sweetalert2";
 
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -56,29 +58,135 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DisplayAllProducts(props) {
+export default function DisplayAllStudents(props) {
   const classes = useStyles();
+  const [firstname, setFirstName] = useState([]);
+  const [studentid, setStudentId] = useState([]);
+  const [courselist, setCourseList] = useState([]);
+  const [courseid, setCourseId] = useState([]);
+  const [instructorid, setInstructorId] = useState([]);
+  const [instructorlist, setInstructorList] = useState([]);
+  const [due, setDue] = useState([]);
+  const [accesstill, setAccessTill] = useState([]);
+  const [offer, setOffer] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [enrollment, setEnrollment] = useState([]);
+  const [list, setList] = useState([]);
 
   const [open, setOpen] = useState(false);
-
+  const [icon, setIcon] = useState({ bytes: "", filename: "./quizaro.png" });
   const [showButton, setShowButton] = useState(false);
-
+  const [tempIcon, setTempIcon] = useState("");
   const [btnStatus, setBtnStatus] = useState(true);
 
   const handleCancel = () => {
     setShowButton(false);
     setBtnStatus(true);
+    setIcon({ bytes: "", filename: `${serverURL}/images/${tempIcon}` });
   };
 
   const handleOpen = (rowData) => {
+    setFirstName(rowData.firstname + rowData.lastname);
+    setCourseId(rowData.courseid);
+    fetchCourse(rowData.course);
+    setCourseId(rowData.courseid);
+    fetchInstructors(rowData.course);
+    setInstructorId(rowData.courseid);
+    setDue(rowData.due);
+    setAccessTill(rowData.accesstill);
+    setOffer(rowData.offer);
+    setStatus(rowData.status);
+    setEnrollment(rowData.enrollment);
+    setIcon({ bytes: "", filename: `${serverURL}/images/${rowData.picture}` });
+    setTempIcon(rowData.picture);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    fetchStudents();
   };
 
+  useEffect(function () {
+    fetchStudents();
+  }, []);
+
   /***********************Dialog ****************************************************/
+  const handleCourseChange = (event) => {
+    setCourseId(event.target.value);
+    fetchInstructors(event.target.value);
+  };
+  const fetchCourse = async () => {
+    var result = await getData("courses/allcourses");
+    console.log(result);
+    setCourseList(result.result);
+  };
+  useEffect(function () {
+    fetchCourse();
+  }, []);
+
+  const fillCourses = () => {
+    return courselist.map((item) => {
+      return <MenuItem value={item.courseid}>{item.coursename}</MenuItem>;
+    });
+  };
+  const handleInstructorChange = (event) => {
+    setInstructorId(event.target.value);
+  };
+  const fetchInstructors = async () => {
+    var result = await getData("instructors/allinstructors");
+    console.log(result);
+    setInstructorList(result.result);
+  };
+
+  const fillInstructors = () => {
+    return instructorlist.map((item) => {
+      return <MenuItem value={item.instructorid}>{item.firstname}</MenuItem>;
+    });
+  };
+
+  const handleDelete = async (rowData) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        var dresult = await postData("students/deletedata", { studentid: rowData.studentid });
+        if (dresult.result) {
+          Swal.fire("Deleted!", "student has been deleted.", "success");
+        }
+      }
+      fetchStudents();
+    });
+  };
+
+  const handleSubmit = async () => {
+    var result = await postData("students/editdata", {
+      studentid: studentid,
+    });
+    if (result.result) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Student has been updated",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "Fail to update student",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
 
   const showDialog = () => {
     return (
@@ -108,39 +216,49 @@ export default function DisplayAllProducts(props) {
                     Edit Student
                   </Grid>
                   <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Student Id
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Student Id"></Select>
-                    </FormControl>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Student Name"
+                      value={firstname}
+                      onChange={(event) => setFirstName(event.target.value)}
+                      fullWidth
+                    />
                   </Grid>
                   <Grid item xs={4}>
                     <FormControl fullWidth>
                       <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                         Course
                       </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Course"></Select>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={courseid}
+                        label="Course"
+                        onChange={(event) => handleCourseChange(event)}
+                      >
+                        {fillCourses}
+                      </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={4}>
                     <FormControl fullWidth>
                       <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Name
+                        Instructor Name
                       </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Name"></Select>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={instructorid}
+                        label="Instructor"
+                        onChange={(event) => handleInstructorChange(event)}
+                      >
+                        {fillInstructors}
+                      </Select>
                     </FormControl>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Instructor Name"
-                      fullWidth
-                    />
                   </Grid>
                   <Grid item xs={4}>
                     <CssTextField
@@ -149,6 +267,8 @@ export default function DisplayAllProducts(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
+                      value={due}
+                      onChange={(event) => setDue(event.target.value)}
                       label="Due"
                       fullWidth
                     />
@@ -160,6 +280,8 @@ export default function DisplayAllProducts(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
+                      value={accesstill}
+                      onChange={(event) => setAccessTill(event.target.value)}
                       label="Access Till"
                       fullWidth
                     />
@@ -171,6 +293,8 @@ export default function DisplayAllProducts(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
+                      value={offer}
+                      onChange={(event) => setOffer(event.target.value)}
                       label="Offer"
                       fullWidth
                     />
@@ -182,6 +306,8 @@ export default function DisplayAllProducts(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
+                      value={status}
+                      onChange={(event) => setStatus(event.target.value)}
                       label="Status"
                       fullWidth
                     />
@@ -193,11 +319,12 @@ export default function DisplayAllProducts(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
+                      value={enrollment}
+                      onChange={(event) => setEnrollment(event.target.value)}
                       label="Enrollment"
                       fullWidth
                     />
                   </Grid>
-
                   <Grid item xs={12}>
                     <Button
                       style={{
@@ -207,6 +334,7 @@ export default function DisplayAllProducts(props) {
                       }}
                       variant="contained"
                       fullWidth
+                      onClick={handleSubmit}
                     >
                       Edit Data
                     </Button>
@@ -214,7 +342,6 @@ export default function DisplayAllProducts(props) {
                   <Grid item xs={12}>
                     <Divider style={{ background: "#FFF" }} />
                   </Grid>
-
                   <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                     {btnStatus ? (
                       <>
@@ -280,48 +407,33 @@ export default function DisplayAllProducts(props) {
 
   /**********************Dialog End ****************************************************/
 
+  const fetchStudents = async () => {
+    var result = await getData("students/allstudents");
+    setList(result.result);
+  };
+  useEffect(function () {
+    fetchStudents();
+  }, []);
+
   function display() {
     return (
       <MaterialTable
         title="List Students"
         columns={[
           { title: "Student ID", field: "studentid" },
-          { title: "Course", field: "course" },
-          { title: "Image", field: "image" },
-          { title: "Full Name", field: "name" },
-          { title: "Instructor", field: "instructor" },
-          { title: "Due", field: "due" },
-          { title: "Access Till", field: "access" },
-          { title: "Offer", field: "offer" },
-          { title: "Status", field: "status" },
-          { title: "Enrollment", field: "enrollment" },
-        ]}
-        data={[
+
           {
-            studentid: "090510",
-            course: "Full Stack",
-            image: "Mehmet",
-            name: "Mehmet",
-            instructor: "Rohan Jha",
-            due: 2500,
-            access: "26 August",
-            offer: "reffered",
-            status: "Active",
-            enrollment: "Active",
+            title: "Image",
+            field: "image",
+            render: (rowData) => <img src={`${serverURL}/images/${rowData.image}`} style={{ maxWidth: 70, borderRadius: "25%" }} alt="" />,
           },
-          {
-            studentid: "090512",
-            course: "Finance",
-            image: "Mehak",
-            name: "Mehmet",
-            instructor: "Kavya OJha",
-            due: 1000,
-            access: "26 April",
-            offer: "website",
-            status: "Deactivated",
-            enrollment: "Finished",
-          },
+          { title: "First Name", field: "firstname" },
+          { title: "Last Name", field: "lastname" },
+          { title: "Details", field: "details" },
+          { title: "College Name", field: "collegename" },
+          { title: "Year", field: "year" },
         ]}
+        data={list}
         actions={[
           {
             icon: "edit",
@@ -333,6 +445,9 @@ export default function DisplayAllProducts(props) {
           {
             icon: "delete",
             tooltip: "Delete Category",
+            onClick: (event, rowData) => {
+              handleDelete(rowData);
+            },
           },
         ]}
       />

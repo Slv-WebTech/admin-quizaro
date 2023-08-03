@@ -16,9 +16,6 @@ import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
 import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
 
-import Law from "./Law";
-import ML from "./ML";
-
 import FullStack from "./FullStack";
 import AWS from "./AWS";
 import Android from "./Android";
@@ -33,6 +30,11 @@ import Students from "./Students";
 import Admins from "./Admins";
 import Instructors from "./Instructors";
 import AddCourse from "./Add Course";
+// import AddComboCourse from "./Add ComboCourse";
+import AddStream from "./Add Stream";
+import AddInstitute from "./Add Institute";
+import AddCertification from "./Add Certification";
+import AddLanguage from "./Add Language";
 import AddAdmin from "./Add Admin";
 import AddInstructor from "./Add Instructor";
 import AddStudent from "./Add Student";
@@ -42,6 +44,9 @@ import AllStudents from "./AllStudents";
 import AllCourses from "./AllCourses";
 import AllInstructors from "./AllInstructors";
 import AllAdmins from "./AllAdmins";
+import AllInstitutes from "./AllInstitutes";
+import AllStreams from "./AllStreams";
+import AllCertifications from "./AllCertifications";
 
 export default function AdminListItems(props) {
   const handleClick = (v) => {
@@ -85,18 +90,7 @@ export default function AdminListItems(props) {
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
       </ListItemButton>
-      <ListItemButton onClick={() => handleClick(<Law setViewContainer={props.setViewContainer} />)}>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Law" />
-      </ListItemButton>
-      <ListItemButton onClick={() => handleClick(<ML setViewContainer={props.setViewContainer} />)}>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="ML" />
-      </ListItemButton>
+
       <ListItemButton onClick={handleCourseOpen}>
         <ListItemIcon onClick={() => handleClick(<AllCourses setViewContainer={props.setViewContainer} />)}>
           <BarChartIcon />
@@ -261,6 +255,36 @@ export default function AdminListItems(props) {
             </ListItemIcon>
             <ListItemText primary="Add Admin" />
           </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AddStream setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Add Stream" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AddCertification setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Add Certification" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AddInstitute setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Add Institute" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AddLanguage setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Add Language" />
+          </ListItemButton>
+          {/* <ListItemButton onClick={() => handleClick(<AddComboCourse setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Add Combo Course" />
+          </ListItemButton> */}
           <ListItemButton onClick={() => handleClick(<AddCourse setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
               <StarBorder />
@@ -301,6 +325,24 @@ export default function AdminListItems(props) {
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="All Instructors" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AllInstitutes setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="All Institutes" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AllCertifications setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="All Certifications" />
+          </ListItemButton>
+          <ListItemButton onClick={() => handleClick(<AllStreams setViewContainer={props.setViewContainer} />)}>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="All Streams" />
           </ListItemButton>
         </List>
       </Collapse>

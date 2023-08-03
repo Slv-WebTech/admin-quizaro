@@ -16,15 +16,15 @@ import Test2 from "./Quizaro/Test2";
 import Test3 from "./Quizaro/Test3";
 import Test4 from "./Quizaro/Test4";
 import Test5 from "./Quizaro/Test5";
-import Adminlogin from "./Quizaro/Adminlogin";
 import AdminDashboard from "./Quizaro/AdminDashboard";
-import Instructorlogin from "./Quizaro/Instructorlogin";
+import Adminlogin from "./Quizaro/Adminlogin";
 import Home from "./Quizaro/Home";
 import AddressForm from "./Quizaro/AddressForm";
 import Orders from "./Quizaro/Orders";
 import Chart from "./Quizaro/Chart";
 import Deposits from "./Quizaro/Deposits";
 import Students from "./Quizaro/Students";
+import AddInstitute from "./Quizaro/Add Institute";
 
 // import { SContainer } from "./Quizaro/SContainer";
 
@@ -49,15 +49,16 @@ function App(props) {
           <Route history={props.history} element={<Test3 />} path="/test3" />
           <Route history={props.history} element={<Test4 />} path="/test4" />
           <Route history={props.history} element={<Test5 />} path="/test5" />
-          <Route history={props.history} element={<Adminlogin />} path="/adminlogin" />
+          <Route history={props.history} element={<login />} path="/login" />
           <Route history={props.history} element={<AdminDashboard />} path="/Admindashboard" />
-          <Route history={props.history} element={<Instructorlogin />} path="/instructorlogin" />
+          <Route history={props.history} element={<Adminlogin />} path="/adminlogin" />
           <Route history={props.history} element={<Home />} path="/home" />
           <Route history={props.history} element={<Chart />} path="/Chart" />
           <Route history={props.history} element={<Orders />} path="/orders" />
           <Route history={props.history} element={<Deposits />} path="/deposit" />
           <Route history={props.history} element={<AddressForm />} path="/addressform" />
           <Route history={props.history} element={<Students />} path="/students" />
+          <Route history={props.history} element={<AddInstitute />} path="/addinstitute" />
 
           {/* <Route history={props.history} element={<SContainer />} path="/container" /> */}
         </Routes>

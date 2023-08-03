@@ -1,125 +1,122 @@
-import * as React from "react";
-import Input from "@mui/base/Input";
-import { makeStyles } from "@mui/styles";
-import { styled } from "@mui/system";
-import { FormControl, Button } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import React, { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { postData } from "./FetchNodeServices";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-const CustomInput = React.forwardRef(function CustomInput(props, ref) {
-  return <Input slots={{ input: StyledInputElement }} {...props} ref={ref} />;
-});
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundImage: "url('https://source.unsplash.com/random?wallpapers')",
-    height: 926,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-  },
-
-  subdiv: {
-    display: "flex",
-    justifyContent: "center",
-    padding: 10,
-    // marginLeft: 80,
-    // width: 700,
-    backgroundImage: "url('https://source.unsplash.com/random?wallpapers')",
-    height: 500,
-    fontSize: "50px",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    borderRadius: 20,
-  },
-});
-export default function UnstyledInputIntroduction() {
-  const classes = useStyles();
+function Copyright(props) {
   return (
-    <div className={classes.root}>
-      <div className={classes.subdiv}>
-        <FormControl>
-          <Grid width={300} container spacing={2} m={4}>
-            <Grid item xs={8}>
-              <CustomInput type="email" aria-label="Demo input" placeholder="Enter Mail" />
-            </Grid>
-            <Grid item xs={8}>
-              <CustomInput type="password" aria-label="Demo input" placeholder="Password" />
-              <Box
-                component="form"
-                sx={{
-                  "& > :not(style)": { m: 1, width: 250 },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField id="standard-basic" label="Standard" variant="standard" />
-              </Box>
-            </Grid>
-            <Grid item xs={8}>
-              {/* <CustomInput aria-label="Demo input" placeholder="Contact" /> */}
-              <Button sx={{ color: "black", size: 24 }}>Submit</Button>
-            </Grid>
-            {/* <Grid item xs={6}>
-              <CustomInput aria-label="Demo input" placeholder="Captcha" />
-            </Grid>  */}
-          </Grid>
-        </FormControl>
-      </div>
-    </div>
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {"Copyright © "}
+      <Link color="inherit" href="https://github.com/Slv1-webpage">
+        Quizaro ExtendedEdge
+      </Link>
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
   );
 }
 
-const blue = {
-  100: "#DAECFF",
-  200: "#b6daff",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E5",
-  900: "#003A75",
-};
+const defaultTheme = createTheme();
 
-const grey = {
-  50: "#f6f8fa",
-  100: "#eaeef2",
-  200: "#d0d7de",
-  300: "#afb8c1",
-  400: "#8c959f",
-  500: "#6e7781",
-  600: "#57606a",
-  700: "#424a53",
-  800: "#32383f",
-  900: "#24292f",
-};
+export default function Admin() {
+  const [email, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  var navigate = useNavigate();
 
-const StyledInputElement = styled("input")(
-  ({ theme }) => `
-  width: 20em;
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.5;
-  padding: 8px 12px;
-  border-radius: 8px;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 24px ${theme.palette.mode === "dark" ? blue[900] : blue[100]};
+  const handleSubmit = async () => {
+    var result = await postData("adminlogin/chkadminlogin", { email: email, password: password });
+    if (result.result) {
+      navigate("/AdminDashboard");
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid Email Address/Password",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) => (t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900]),
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              //   background: "rgba(0, 0, 0, 0.7)",
+              //   boxShadow: "0 15px 25px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            <Avatar sx={{ background: "white", width: 80, height: 80 }}>
+              <img alt="Quizaro ExtendedEdge" src="./quizaro.png" width="70" />
+            </Avatar>
 
-  &:hover {
-    border-color: ${blue[400]};
-  }
+            <Typography mt={2} component="h1" variant="h5">
+              Admin
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                onChange={(e) => setEmailId(e.target.value)}
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+              <Button onClick={() => handleSubmit()} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                Welcome
+              </Button>
 
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${theme.palette.mode === "dark" ? blue[600] : blue[200]};
-  }
-
-  // firefox
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
+}

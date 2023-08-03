@@ -93,7 +93,7 @@ function DashboardContent() {
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar position="absolute" color="inherit" open={open}>
           <Toolbar
             sx={{
               pr: "24px",
@@ -111,8 +111,15 @@ function DashboardContent() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              Dashboard
+            <img src="./quizaro.png" style={{ width: 60, height: 60 }} alt="logo" />
+            <Typography
+              component="h1"
+              variant="h4"
+              color="secondary"
+              noWrap
+              sx={{ flexGrow: 1, display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+              DASHBOARD
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">

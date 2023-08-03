@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
-
+import { getData, serverURL } from "./FetchNodeServices";
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
@@ -56,9 +56,16 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DisplayAllProducts(props) {
+export default function DisplayAllInstructors(props) {
   const classes = useStyles();
-
+  const [list, setList] = useState([]);
+  const fetchInstructors = async () => {
+    var result = await getData("instructors/allInstructors");
+    setList(result.result);
+  };
+  useEffect(function () {
+    fetchInstructors();
+  }, []);
   const [open, setOpen] = useState(false);
 
   const [showButton, setShowButton] = useState(false);
@@ -286,47 +293,32 @@ export default function DisplayAllProducts(props) {
         title="List Instructors"
         columns={[
           { title: "Instructor ID", field: "instructorid" },
-          { title: "Courses", field: "course" },
-          { title: "Image", field: "image" },
-          { title: "Name", field: "name" },
-          { title: "Payroll", field: "payment" },
-          { title: "Access Till", field: "access" },
-          { title: "Status", field: "status" },
-          { title: "Enrollment", field: "enrollment" },
-        ]}
-        data={[
+
           {
-            instructorid: "090510",
-            course: "Full Stack,AWS",
-            image: "Mehmet",
-            name: "Rohan Jha",
-            payment: 25000,
-            access: "26 August",
-            status: "Active",
-            enrollment: "Active",
+            title: "Image",
+            field: "image",
+            render: (rowData) => <img src={`${serverURL}/images/${rowData.image}`} style={{ maxWidth: 70, borderRadius: "10%" }} alt="" />,
           },
-          {
-            instructorid: "090512",
-            course: "Finance,HR",
-            image: "Mehak",
-            name: "Kavya OJha",
-            payment: 17000,
-            access: "26 April",
-            status: "Deactivated",
-            enrollment: "Finished",
-          },
+          { title: "First Name", field: "firstname" },
+          { title: "Last Name", field: "lastname" },
+          { title: "Details", field: "details" },
+          
+          { title: "Contact Number", field: "mobile" },
+        
+          { title: "Linkedin", field: "linkedinurl" },
         ]}
+        data={list}
         actions={[
           {
             icon: "edit",
-            tooltip: "edit Student",
+            tooltip: "edit Instructors",
             onClick: (event, rowData) => {
               handleOpen(rowData);
             },
           },
           {
             icon: "delete",
-            tooltip: "Delete Category",
+            tooltip: "Delete Instructors",
           },
         ]}
       />

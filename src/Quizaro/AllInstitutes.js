@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
 import { getData, serverURL } from "./FetchNodeServices";
-
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
@@ -40,8 +39,8 @@ const useStyles = makeStyles({
   },
   subdiv: {
     background: "#7ed6df",
-    padding: 15,
-    width: "100%",
+    padding: 20,
+    width: 1500,
     marginTop: 5,
   },
   droot: {
@@ -57,15 +56,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DisplayAllAdmins(props) {
+export default function DisplayAllInstitutes(props) {
   const classes = useStyles();
   const [list, setList] = useState([]);
-  const fetchAdmins = async () => {
-    var result = await getData("Admins/allAdmins");
+  const fetchInstructors = async () => {
+    var result = await getData("institute/allInstitutes");
     setList(result.result);
   };
   useEffect(function () {
-    fetchAdmins();
+    fetchInstructors();
   }, []);
   const [open, setOpen] = useState(false);
 
@@ -291,34 +290,33 @@ export default function DisplayAllAdmins(props) {
   function display() {
     return (
       <MaterialTable
-        title="List Admins"
+        title="List Institutes"
         columns={[
-          { title: "Admins ID", field: "adminid" },
+          { title: "Institute ID", field: "instituteid" },
 
           {
             title: "Image",
             field: "image",
-            render: (rowData) => <img src={`${serverURL}/images/${rowData.image}`} style={{ maxWidth: 70, borderRadius: "25%" }} alt="" />,
+            render: (rowData) => <img src={`${serverURL}/images/${rowData.icon}`} style={{ maxWidth: 70, borderRadius: "10%" }} alt="" />,
           },
-          { title: "First Name", field: "firstname" },
-          { title: "Last Name", field: "lastname" },
-          { title: "Details", field: "details" },
-          { title: "Email Id", field: "email" },
-          { title: "Password", field: "password" },
-          { title: "Linkedin", field: "linkedinurl" },
+          { title: "Institute Name", field: "institutename" },
+        
+          { title: "Description", field: "description" },
+
+         
         ]}
         data={list}
         actions={[
           {
             icon: "edit",
-            tooltip: "edit Student",
+            tooltip: "edit Institute",
             onClick: (event, rowData) => {
               handleOpen(rowData);
             },
           },
           {
             icon: "delete",
-            tooltip: "Delete Category",
+            tooltip: "Delete Institute",
           },
         ]}
       />

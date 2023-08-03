@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@mui/styles";
-import { styled } from "@mui/material/styles";
-import { Grid, TextField, Button, Avatar } from "@mui/material";
-import Switch from "@mui/material/Switch";
-import Swal from "sweetalert2";
-
-// import { borderRadius } from "@mui/system";
-
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { postDataImage, getData, postData } from "./FetchNodeServices";
+import Chip from "@mui/material/Chip";
+import { makeStyles } from "@mui/styles";
+import { Grid, TextField, Button, Avatar } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import Switch from "@mui/material/Switch";
+import Swal from "sweetalert2";
+import { postDataImage, postData, getData } from "./FetchNodeServices";
+import { StreamOutlined } from "@mui/icons-material";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const useStyles = makeStyles({
   root: {
@@ -44,14 +57,15 @@ const Input = styled("input")({
   display: "none",
 });
 
-function Courses(props) {
+function AddComboCourse(props) {
+  const theme = useTheme();
   const classes = useStyles();
-  const [streamid, setStreamId] = React.useState("");
+  const [streamid, setStreamId] = useState("");
   const [coursename, setCourseName] = useState("");
-  const [certificationid, setCertificationId] = React.useState("");
-  const [instructorid, setInstructorId] = React.useState("");
+  const [certification, setCertification] = useState("");
+  const [instructorname, setInstructorName] = useState("");
   const [language, setLanguage] = useState("");
-  const [instituteid, setInstituteId] = React.useState("");
+  const [institute, setInstitute] = useState("");
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [subtitle, setSubTitle] = useState("");
@@ -71,28 +85,41 @@ function Courses(props) {
   const [assignment, setAssignment] = useState(true);
   const [certificate, setCertificate] = useState(true);
   const [list, setList] = useState([]);
-
   const [icon, setIcon] = useState({ bytes: "", filename: "/quizaro.png" });
-
-  const handleIconChange = (event) => {
-    setIcon({ bytes: event.target.files[0], filename: URL.createObjectURL(event.target.files[0]) });
-  };
 
   const handleStreamChange = (event) => {
     setStreamId(event.target.value);
+    fetchCourses(event.target.value);
   };
 
-  const fetchStream = async () => {
+  const fetchStreams = async () => {
     var result = await getData("stream/allstreams");
     setList(result.result);
   };
   useEffect(function () {
-    fetchStream();
+    fetchStreams();
   }, []);
 
   const fillStream = () => {
     return list.map((item) => {
       return <MenuItem value={item.streamid}>{item.streamname}</MenuItem>;
+    });
+  };
+  const handleCourseChange = (event) => {
+    setStreamId(event.target.value);
+  };
+
+  const fetchCourses = async () => {
+    var result = await getData("course/allcourses");
+    setList(result.result);
+  };
+  useEffect(function () {
+    fetchCourses();
+  }, []);
+
+  const fillCourses = () => {
+    return list.map((item) => {
+      return <MenuItem value={item.courseid}>{item.coursename}</MenuItem>;
     });
   };
   const handleCertificationChange = (event) => {
@@ -112,15 +139,36 @@ function Courses(props) {
       return <MenuItem value={item.certificationid}>{item.certificationname}</MenuItem>;
     });
   };
+  const handleInstructorChange = (event) => {
+    setStreamId(event.target.value);
+  };
+
+  const fetchInstructors = async () => {
+    var result = await getData("instructor/allinstructors");
+    setList(result.result);
+  };
+  useEffect(function () {
+    fetchInstructors();
+  }, []);
+
+  const fillInstructors = () => {
+    return list.map((item) => {
+      return <MenuItem value={item.instructorid}>{item.instructorname}</MenuItem>;
+    });
+  };
+
+  const handleIconChange = (event) => {
+    setIcon({ bytes: event.target.files[0], filename: URL.createObjectURL(event.target.files[0]) });
+  };
 
   const handleSubmit = async () => {
     var formData = new FormData();
-    formData.append("stream", streamid);
+    formData.append("streamid", streamid);
     formData.append("coursename", coursename);
-    formData.append("certification", certificationid);
-    formData.append("instructorname", instructorid);
+    formData.append("certification", certification);
+    formData.append("instructorname", instructorname);
     formData.append("language", language);
-    formData.append("institute", instituteid);
+    formData.append("institute", institute);
     formData.append("title", title);
     formData.append("slug", slug);
     formData.append("subtitle", subtitle);
@@ -140,18 +188,18 @@ function Courses(props) {
     formData.append("assignment", assignment);
     formData.append("certificate", certificate);
     formData.append("icon", icon.bytes);
-    var result = await postDataImage("courses/savecourses", formData);
+    var result = await postDataImage("combocourses/savecombocourses", formData);
     if (result.result) {
       Swal.fire({
         icon: "success",
-        title: "Your Course has been saved",
+        title: "Combo Course has been saved",
         showConfirmButton: false,
         timer: 1500,
       });
     } else {
       Swal.fire({
         icon: "fail",
-        title: "Fail to submit Course",
+        title: "Fail to submit Combo Course",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -173,6 +221,24 @@ function Courses(props) {
     setCertificate(event.target.checked);
   };
 
+  function getStyles(name, personName, theme) {
+    return {
+      fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+    };
+  }
+
+  const [personName, setPersonName] = React.useState([]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setPersonName(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
+  };
+
   return (
     <div className={classes.root}>
       <style jsx>
@@ -190,88 +256,187 @@ function Courses(props) {
           }
         `}
       </style>
-
       <div className={classes.subdiv}>
         <Grid container spacing={2}>
           <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-            Add Courses
+            Add Combo Courses
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2.5}>
             <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+              <InputLabel style={{ color: "#fff" }} id="demo-multiple-chip-label">
                 Stream
               </InputLabel>
-              <Select value={streamid} onChange={(event) => setStreamId(event)} labelId="demo-simple-select-label" id="demo-simple-select" label="Stream">
-                {fillStream()}
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Stream" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                    {name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={2}>
-            <CssTextField
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: "#FFF" },
-              }}
-              inputProps={{ style: { color: "#FFF" } }}
-              label="Course Name"
-              onChange={(event) => setCourseName(event.target.value)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2.5}>
             <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+              <InputLabel style={{ color: "#FFF" }} id="demo-multiple-chip-label">
+                Courses
+              </InputLabel>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Courses" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2.5}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-multiple-chip-label">
                 Certification
               </InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                value={certificationid}
-                id="demo-simple-select"
-                onChange={(event) => setCertificationId(event)}
-                label="Certification"
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Certification" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
               >
-                {fillCertification()}
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2.5}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-multiple-chip-label">
+                Instructors
+              </InputLabel>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Instructors" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                    {name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={2}>
             <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Instructor Name
+              <InputLabel style={{ color: "#FFF" }} id="demo-multiple-chip-label">
+                Languages
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setInstructorId(event.target.value)} label="Instructor">
-                <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
-                <MenuItem value={"Lokesh Reddy"}>Lokesh Reddy </MenuItem>
-                <MenuItem value={"Yuvraj Quizaro"}>Yuvraj Quizaro </MenuItem>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Languages" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                    {name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={2.5}>
             <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Language:
+              <InputLabel style={{ color: "#FFF" }} id="demo-multiple-chip-label">
+                Institutes
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setLanguage(event.target.value)} label="Language">
-                <MenuItem value={"Hindi"}>Hindi </MenuItem>
-                <MenuItem value={"English"}>English </MenuItem>
-                <MenuItem value={"French"}>French </MenuItem>
-                <MenuItem value={"Spanish"}>Spanish </MenuItem>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={personName}
+                onChange={handleChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Institutes" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                    {name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
 
-          <Grid item xs={2}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Institute:
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setInstituteId(event.target.value)} label="Institute">
-                <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={1}>
+          <Grid item xs={1.5}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -522,5 +687,4 @@ function Courses(props) {
     </div>
   );
 }
-
-export default Courses;
+export default AddComboCourse;
