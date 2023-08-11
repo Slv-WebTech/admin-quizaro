@@ -26,7 +26,7 @@ export default function Card() {
     const title = titleRef.current;
     const sizesBox = sizesboxRef.current;
     const purchase = purchaseRef.current;
-    const desc = descRef.current
+    const desc = descRef.current;
     title.style.transform = "translateZ(150px)";
     img.style.transform = "translateZ(100px) rotateZ(-45deg)";
     sizesBox.style.transform = "translateZ(100px)";
@@ -48,41 +48,30 @@ export default function Card() {
   }
 
   return (
-    
-      <div
-        className="card"
-        ref={cardRef}
-        style={{
-          transform: `rotateX(${xRotation}deg) rotateY(${yRotation}deg)`,
-        }}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <img
-          ref={imgRef}
-          src={require("./Shoe-img/Nike-Shoe.PNG")}
-          alt="Nike-Shoe"
-          className="sneaaker-img"
-        />
-        <h1 className="title" ref={titleRef}>
-          Nike Dunk High
-        </h1>
-        <p ref={descRef}>
-          Nike Dunk High is a high-top version of the classic Nike Dunk sneaker,
-          featuring a padded collar for added support and comfort.
-        </p>
-        <ul className="sizes-box" ref={sizesboxRef}>
-          <li>38</li>
-          <li>40</li>
-          <li>42</li>
-          <li>44</li>
-        </ul>
-        <div className="button-box" ref={purchaseRef}>
-          <button className="purchase" >
-            Purchase
-          </button>
-        </div>
+    <div
+      className="card"
+      ref={cardRef}
+      style={{
+        transform: `rotateX(${xRotation}deg) rotateY(${yRotation}deg)`,
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <img ref={imgRef} src={require("./Shoe-img/Nike-Shoe.PNG")} alt="Nike-Shoe" className="sneaaker-img" />
+      <h1 className="title" ref={titleRef}>
+        Nike Dunk High
+      </h1>
+      <p ref={descRef}>Nike Dunk High is a high-top version of the classic Nike Dunk sneaker, featuring a padded collar for added support and comfort.</p>
+      <ul className="sizes-box" ref={sizesboxRef}>
+        <li>38</li>
+        <li>40</li>
+        <li>42</li>
+        <li>44</li>
+      </ul>
+      <div className="button-box" ref={purchaseRef}>
+        <button className="purchase">Purchase</button>
       </div>
+    </div>
   );
 }

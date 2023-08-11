@@ -42,7 +42,7 @@ const Input = styled("input")({
   display: "none",
 });
 
-function Products(props) {
+function Admins(props) {
   const classes = useStyles();
 
   const [firstname, setFirstName] = useState("");
@@ -405,4 +405,4 @@ function Products(props) {
   );
 }
 
-export default Products;
+export default Admins;

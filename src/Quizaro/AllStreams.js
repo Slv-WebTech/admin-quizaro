@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
-import { getData, serverURL } from "./FetchNodeServices";
+import { getData, postData, serverURL } from "./FetchNodeServices";
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
-import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
+import { Grid, TextField, Button } from "@mui/material";
 
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Swal from "sweetalert2";
+
 
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -58,34 +57,74 @@ const useStyles = makeStyles({
 
 export default function DisplayAllInstitutes(props) {
   const classes = useStyles();
+  const [streamid, setStreamId] = useState();
+  const [streamname, setStreamName] = useState();
   const [list, setList] = useState([]);
-  const fetchInstructors = async () => {
+  const fetchStream = async () => {
     var result = await getData("stream/allstreams");
     setList(result.result);
   };
   useEffect(function () {
-    fetchInstructors();
+    fetchStream();
   }, []);
   const [open, setOpen] = useState(false);
 
-  const [showButton, setShowButton] = useState(false);
-
-  const [btnStatus, setBtnStatus] = useState(true);
-
-  const handleCancel = () => {
-    setShowButton(false);
-    setBtnStatus(true);
-  };
-
   const handleOpen = (rowData) => {
+    setStreamId(rowData.streamid);
+    setStreamName(rowData.streamname);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    fetchStream();
   };
 
   /***********************Dialog ****************************************************/
+
+  const handleDelete = async (rowData) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        var dresult = await postData("stream/deletedata", { streamid: rowData.streamid });
+        if (dresult.result) {
+          Swal.fire("Deleted!", "stream has been deleted.", "success");
+        }
+      }
+      fetchStream();
+    });
+  };
+
+  const handleSubmit = async () => {
+    var result = await postData("stream/editdata", {
+      streamid: streamid,
+      streamname: streamname,
+    });
+    if (result.result) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Stream has been updated",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "Fail to update stream",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
 
   const showDialog = () => {
     return (
@@ -112,32 +151,9 @@ export default function DisplayAllInstitutes(props) {
               <div className={classes.dsubdiv}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-                    Edit Student
+                    Edit Stream
                   </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Student Id
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Student Id"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Course
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Course"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Name
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Name"></Select>
-                    </FormControl>
-                  </Grid>
+
                   <Grid item xs={8}>
                     <CssTextField
                       variant="outlined"
@@ -145,62 +161,9 @@ export default function DisplayAllInstitutes(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Instructor Name"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Due"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Access Till"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Offer"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Status"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Enrollment"
+                      label="Stream Name"
+                      value={streamname}
+                      onChange={(event) => setStreamName(event.target.value)}
                       fullWidth
                     />
                   </Grid>
@@ -214,62 +177,10 @@ export default function DisplayAllInstitutes(props) {
                       }}
                       variant="contained"
                       fullWidth
+                      onClick={handleSubmit}
                     >
                       Edit Data
                     </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Divider style={{ background: "#FFF" }} />
-                  </Grid>
-
-                  <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {btnStatus ? (
-                      <>
-                        <label htmlFor="contained-button-file">
-                          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                          <Button
-                            style={{
-                              background: "#FFF",
-                              color: "#7ed6df",
-                              fontWeight: "bold",
-                            }}
-                            variant="contained"
-                            component="span"
-                            fullWidth
-                          >
-                            Upload
-                          </Button>
-                        </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {showButton ? (
-                      <div>
-                        <Button style={{ color: "#FFF", fontWeight: "bold" }}>Save</Button>
-                        <Button onClick={handleCancel} style={{ color: "#FFF", fontWeight: "bold" }}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                      // variant="rounded"
-                      sx={{ width: 70, height: 70 }}
-                    />
                   </Grid>
                 </Grid>
               </div>
@@ -300,8 +211,6 @@ export default function DisplayAllInstitutes(props) {
             render: (rowData) => <img src={`${serverURL}/images/${rowData.icon}`} style={{ maxWidth: 70, borderRadius: "10%" }} alt="" />,
           },
           { title: "Stream Name", field: "streamname" },
-
-         
         ]}
         data={list}
         actions={[
@@ -315,6 +224,9 @@ export default function DisplayAllInstitutes(props) {
           {
             icon: "delete",
             tooltip: "Delete Stream",
+            onClick: (event, rowData) => {
+              handleDelete(rowData);
+            },
           },
         ]}
       />

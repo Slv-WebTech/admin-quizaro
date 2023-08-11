@@ -29,7 +29,6 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import LaptopMacIcon from "@mui/icons-material/LaptopMac";
 import HotelIcon from "@mui/icons-material/Hotel";
 import RepeatIcon from "@mui/icons-material/Repeat";
-
 import CardContent from "@mui/material/CardContent";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -38,22 +37,20 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
-  maxWidth: 400,
+  maxWidth: 500,
 }));
 
 const message = `Education is the key to Success.`;
 
-export default function Cards() {
+export default function Dashboard() {
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={4}>
-        <Typography variant="caption" sx={{ fontSize: 40 }}>
-          Your Dashboard
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
+    <Grid container spacing={4} sx={{ marginTop: 2, marginLeft: 2 }}>
+      <Grid sx={{ backgroundColor: "white", boxShadow: 6, borderRadius: 5, padding: 3 }} item xs={3}>
+        <Typography variant="h3">Your Dashboard</Typography>
+        <Typography variant="body1" color="text.secondary">
           Today's Dashboard
         </Typography>
-        <Box sx={{ flexGrow: 1, overflow: "hidden", px: 3 }}>
+        <Box sx={{ flexGrow: 1, overflow: "hidden", px: 1 }}>
           <Item
             sx={{
               my: 3,
@@ -62,14 +59,12 @@ export default function Cards() {
           >
             <Stack spacing={2} direction="row">
               <PeopleAltOutlinedIcon sx={{ fontSize: 30 }} />
-
               <Typography noWrap>{message}</Typography>
             </Stack>
           </Item>
           <Item
             sx={{
               my: 3,
-
               p: 2,
             }}
           >
@@ -147,24 +142,24 @@ export default function Cards() {
           </Item>
         </Box>
       </Grid>
-      <Grid item xs={6}>
-        <Stack direction="row" spacing={3}>
-          <Item>
+      <Grid item xs={8}>
+        <Stack direction="row" spacing={4}>
+          <Item sx={{ borderRadius: 6, boxShadow: 8 }}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar sx={{ background: "rgb(232,232,232)", borderRadius: 5 }} />
+              <DateCalendar sx={{ backgroundColor: "#fff", borderRadius: 5 }} />
             </LocalizationProvider>
           </Item>
-          <Item>
-            <Card sx={{ borderRadius: 5, width: 300 }}>
-              <CardContent sx={{ height: 330, background: "rgb(243,244,246)", padding: 6 }}>
-                <Typography sx={{ fontSize: 20, fontWeight: "bold" }} color="black" gutterBottom>
+          <Item sx={{ borderRadius: 6, boxShadow: 8 }}>
+            <Card sx={{ borderRadius: 6, width: 300, boxShadow: "none" }}>
+              <CardContent sx={{ height: 330, background: "#fff", padding: 2 }}>
+                <Typography sx={{ fontSize: 25, fontWeight: "bold" }} color="black" gutterBottom>
                   Good Evening , Sir
                 </Typography>
-                <Typography m={0.5} variant="body2">
+                <Typography variant="body1">
                   "It's a fact that online learning is the future and will undoubtedly replace land-based learning in the future."
                 </Typography>
                 <Typography>Have a nice day....</Typography>
-                <Typography variant="body3" sx={{ mt: 1, display: "flex", alignItems: "center" }}>
+                <Typography variant="body1" sx={{ mt: 1 }}>
                   Don't Forgot to attend Classes ...
                 </Typography>
                 {/* <CardActions>
@@ -173,7 +168,7 @@ export default function Cards() {
               </CardContent>
             </Card>
           </Item>
-          <Item>
+          <Item sx={{ borderRadius: 4, boxShadow: 8, padding: 2 }}>
             <Deposits />
             <hr />
             <Typography variant="h5" fontWeight={900}>
@@ -182,48 +177,32 @@ export default function Cards() {
             <hr />
             <Deposits />
           </Item>
+          <Item sx={{ boxShadow: 8 }}>
+            <Typography variant="h5"> Popular Courses</Typography>
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?mobile" sx={{ marginTop: 2, width: 90, height: 90 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?tablet" sx={{ marginTop: 2, width: 90, height: 90 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?bluetooth" sx={{ marginTop: 2, width: 90, height: 90 }} />
+          </Item>
         </Stack>
-        <Grid item xs={12}>
+        <Grid mt={2} item xs={5}>
           <Typography sx={{ fontSize: 30 }}>Today's Classes</Typography>
-          <div>
-            <Stack direction="row" spacing={2}>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?mobile" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?computer" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?nature" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?robot" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?AI" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-            </Stack>
-          </div>
+          <Stack direction="row" spacing={2} marginTop={1}>
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?mobile" sx={{ width: 100, height: 100 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?computer" sx={{ width: 100, height: 100 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?nature" sx={{ width: 100, height: 100 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?robot" sx={{ width: 100, height: 100 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?AI" sx={{ width: 100, height: 100 }} />
+          </Stack>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={5}>
           <Typography sx={{ fontSize: 30 }}>Recent Classes</Typography>
-          <div>
-            <Stack direction="row" spacing={2}>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?boy" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?girl" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?cat" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?dog" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
-              <Item sx={{ width: 100, height: 120, display: "flex", justifyContent: "center" }}>
-                <Avatar alt="Admin" src="https://source.unsplash.com/random?monkey" sx={{ marginTop: 2, width: 70, height: 70 }} />
-              </Item>
+          <div style={{ display: "inline" }}>
+            <Stack direction="row" spacing={2} marginTop={1}>
+              <Avatar alt="Admin" src="https://source.unsplash.com/random?boy" sx={{ width: 100, height: 100 }} />
+              <Avatar alt="Admin" src="https://source.unsplash.com/random?girl" sx={{ width: 100, height: 100 }} />
+              <Avatar alt="Admin" src="https://source.unsplash.com/random?cat" sx={{ width: 100, height: 100 }} />
+              <Avatar alt="Admin" src="https://source.unsplash.com/random?dog" sx={{ width: 100, height: 100 }} />
+              <Avatar alt="Admin" src="https://source.unsplash.com/random?monkey" sx={{ width: 100, height: 100 }} />
             </Stack>
           </div>
         </Grid>
@@ -231,7 +210,8 @@ export default function Cards() {
       <Grid item xs={12}>
         <Chart />
       </Grid>
-      <Grid item xs={6}>
+
+      <Grid item xs={5} sx={{ backgroundColor: "#fff", borderRadius: 5, boxShadow: 8 }}>
         <Timeline position="alternate">
           <TimelineItem>
             <TimelineOppositeContent sx={{ m: "auto 0" }} align="right" variant="body2" color="text.secondary">
@@ -301,7 +281,7 @@ export default function Cards() {
           </TimelineItem>
         </Timeline>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={6} sx={{ backgroundColor: "#fff", borderRadius: 5, marginLeft: 8, boxShadow: 8 }}>
         <Orders />
       </Grid>
     </Grid>

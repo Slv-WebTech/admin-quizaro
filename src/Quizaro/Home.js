@@ -26,6 +26,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Course from "./Course";
 
 import Law from "./Law";
 import HR from "./HR";
@@ -146,20 +147,20 @@ const useStyles = makeStyles({
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function Dashboard(props) {
-  const [view, setView] = useState("");
+  const [view, setView] = useState(<Course />);
 
   const classes = useStyles();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
-  };
+  // const [personName, setPersonName] = React.useState([]);
+  // const handleChange = (event) => {
+  //   const {
+  //     target: { value },
+  //   } = event;
+  //   setPersonName(
+  //     // On autofill we get a stringified value.
+  //     typeof value === "string" ? value.split(",") : value
+  //   );
+  // };
   // const handleClick = (v) => {
   //   setViewContainer(v);
   // };
@@ -254,27 +255,12 @@ function Dashboard(props) {
           <Grid item xs={4}>
             <div style={{ marginLeft: 70 }}>
               <FormControl sx={{ ml: 7, width: 300, mt: 3 }}>
-                <Select
-                  style={{ borderRadius: 14, paddingLeft: 1 }}
-                  displayEmpty
-                  // value={personName}
-                  // onChange={handleChange}
-                  input={<OutlinedInput />}
-                  renderValue={(selected) => {
-                    if (selected === 0) {
-                      return <em>CAREER INTEREST</em>;
-                    }
-
-                    // return selected.join(", ");
-                  }}
-                  MenuProps={MenuProps}
-                  inputProps={{ "aria-label": "Without label" }}
-                >
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" >
                   <MenuItem disabled value="">
                     <em>CAREER INTEREST</em>
                   </MenuItem>
-                  <MenuItem onClick={() => handleClick(<FullStack />)}>Full Stack Development</MenuItem>
-                  <MenuItem onClick={() => handleClick(<HR />)}>HR</MenuItem>
+                  <MenuItem value="Full Stack" onClick={() => handleClick(<FullStack />)}>Full Stack Development</MenuItem>
+                  <MenuItem value="HR" onClick={() => handleClick(<HR />)}>HR</MenuItem>
                   <MenuItem onClick={() => handleClick(<Finance />)}>Finance</MenuItem>
                   <MenuItem onClick={() => handleClick(<Law />)}>Law</MenuItem>
                   <MenuItem onClick={() => handleClick(<AI />)}>AI</MenuItem>
@@ -287,8 +273,8 @@ function Dashboard(props) {
               <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
                 <Select
                   style={{ borderRadius: 14 }}
-                  displayEmpty
-                  // value={personName}
+                  // displayEmpty
+                  value=""
                   // onChange={handleChange}
                   input={<OutlinedInput />}
                   // renderValue={(selected) => {
@@ -320,7 +306,7 @@ function Dashboard(props) {
           </Grid>
         </Grid>
         <div style={{ marginLeft: 70 }}>{view}</div>
-        <div style={{ marginLeft: 70 }}>
+        {/* <div style={{ marginLeft: 70 }}>
           <Grid container m={4} spacing={3}>
             <Grid item sx={4}>
               <Card className={classes.courseCards} sx={{ maxWidth: 370, borderRadius: 3, height: 400, background: "rgb(243,244,246)" }}>
@@ -522,8 +508,9 @@ function Dashboard(props) {
                 </CardActions>
               </Card>
             </Grid>
-          </Grid>
-        </div>
+          </Grid> */}
+
+        {/* </div> */}
       </div>
       {RegistrationForm()}
     </div>

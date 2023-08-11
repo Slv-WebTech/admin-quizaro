@@ -156,7 +156,7 @@ function DashboardContent() {
           }}
         >
           <Toolbar />
-          <Grid Container p={4}>
+          <Grid Container>
             {view}
             <Copyright sx={{ pt: 4 }} />
           </Grid>

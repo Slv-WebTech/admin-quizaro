@@ -4,7 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { getData, postData, serverURL } from "./FetchNodeServices";
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
-import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
+import { Grid, TextField, Button } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Swal from "sweetalert2";
@@ -60,11 +60,11 @@ const useStyles = makeStyles({
 
 export default function DisplayAllStudents(props) {
   const classes = useStyles();
-  const [firstname, setFirstName] = useState([]);
-  const [studentid, setStudentId] = useState([]);
+  const [firstname, setFirstName] = useState("");
+  const [studentid, setStudentId] = React.useState([]);
+  const [courseid, setCourseId] = React.useState([]);
   const [courselist, setCourseList] = useState([]);
-  const [courseid, setCourseId] = useState([]);
-  const [instructorid, setInstructorId] = useState([]);
+  const [instructorid, setInstructorId] = React.useState([]);
   const [instructorlist, setInstructorList] = useState([]);
   const [due, setDue] = useState([]);
   const [accesstill, setAccessTill] = useState([]);
@@ -74,31 +74,20 @@ export default function DisplayAllStudents(props) {
   const [list, setList] = useState([]);
 
   const [open, setOpen] = useState(false);
-  const [icon, setIcon] = useState({ bytes: "", filename: "./quizaro.png" });
-  const [showButton, setShowButton] = useState(false);
-  const [tempIcon, setTempIcon] = useState("");
-  const [btnStatus, setBtnStatus] = useState(true);
-
-  const handleCancel = () => {
-    setShowButton(false);
-    setBtnStatus(true);
-    setIcon({ bytes: "", filename: `${serverURL}/images/${tempIcon}` });
-  };
 
   const handleOpen = (rowData) => {
+    setStudentId(rowData.studentid);
     setFirstName(rowData.firstname + rowData.lastname);
-    setCourseId(rowData.courseid);
     fetchCourse(rowData.course);
     setCourseId(rowData.courseid);
-    fetchInstructors(rowData.course);
-    setInstructorId(rowData.courseid);
+    fetchInstructors(rowData.instructor);
+    setInstructorId(rowData.instructorid);
     setDue(rowData.due);
     setAccessTill(rowData.accesstill);
     setOffer(rowData.offer);
     setStatus(rowData.status);
     setEnrollment(rowData.enrollment);
-    setIcon({ bytes: "", filename: `${serverURL}/images/${rowData.picture}` });
-    setTempIcon(rowData.picture);
+
     setOpen(true);
   };
 
@@ -141,7 +130,7 @@ export default function DisplayAllStudents(props) {
 
   const fillInstructors = () => {
     return instructorlist.map((item) => {
-      return <MenuItem value={item.instructorid}>{item.firstname}</MenuItem>;
+      return <MenuItem value={item.instructorid}>{item.firstname + item.lastname}</MenuItem>;
     });
   };
 
@@ -168,6 +157,13 @@ export default function DisplayAllStudents(props) {
   const handleSubmit = async () => {
     var result = await postData("students/editdata", {
       studentid: studentid,
+      courseid: courseid,
+      instructorid: instructorid,
+      due: due,
+      accesstill: accesstill,
+      offer: offer,
+      status: status,
+      enrollment: enrollment,
     });
     if (result.result) {
       Swal.fire({
@@ -240,7 +236,7 @@ export default function DisplayAllStudents(props) {
                         label="Course"
                         onChange={(event) => handleCourseChange(event)}
                       >
-                        {fillCourses}
+                        {fillCourses()}
                       </Select>
                     </FormControl>
                   </Grid>
@@ -256,7 +252,7 @@ export default function DisplayAllStudents(props) {
                         label="Instructor"
                         onChange={(event) => handleInstructorChange(event)}
                       >
-                        {fillInstructors}
+                        {fillInstructors()}
                       </Select>
                     </FormControl>
                   </Grid>
@@ -273,7 +269,7 @@ export default function DisplayAllStudents(props) {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
@@ -286,7 +282,7 @@ export default function DisplayAllStudents(props) {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
@@ -339,58 +335,6 @@ export default function DisplayAllStudents(props) {
                       Edit Data
                     </Button>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Divider style={{ background: "#FFF" }} />
-                  </Grid>
-                  <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {btnStatus ? (
-                      <>
-                        <label htmlFor="contained-button-file">
-                          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                          <Button
-                            style={{
-                              background: "#FFF",
-                              color: "#7ed6df",
-                              fontWeight: "bold",
-                            }}
-                            variant="contained"
-                            component="span"
-                            fullWidth
-                          >
-                            Upload
-                          </Button>
-                        </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {showButton ? (
-                      <div>
-                        <Button style={{ color: "#FFF", fontWeight: "bold" }}>Save</Button>
-                        <Button onClick={handleCancel} style={{ color: "#FFF", fontWeight: "bold" }}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                      // variant="rounded"
-                      sx={{ width: 70, height: 70 }}
-                    />
-                  </Grid>
                 </Grid>
               </div>
             </div>
@@ -430,8 +374,13 @@ export default function DisplayAllStudents(props) {
           { title: "First Name", field: "firstname" },
           { title: "Last Name", field: "lastname" },
           { title: "Details", field: "details" },
+          { title: "Due", field: "due" },
+          { title: "Access Till", field: "accesstill" },
+          { title: "Status", field: "status" },
+          { title: "Enrollement", field: "enrollment" },
           { title: "College Name", field: "collegename" },
           { title: "Year", field: "year" },
+          { title: "Offer", field: "offer" },
         ]}
         data={list}
         actions={[

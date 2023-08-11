@@ -63,6 +63,7 @@ function AddComboCourse(props) {
   const [streamid, setStreamId] = useState("");
   const [coursename, setCourseName] = useState("");
   const [certification, setCertification] = useState("");
+  const [certificationid, setCertificationId] = useState("");
   const [instructorname, setInstructorName] = useState("");
   const [language, setLanguage] = useState("");
   const [institute, setInstitute] = useState("");

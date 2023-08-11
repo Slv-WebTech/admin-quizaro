@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Switch from "@mui/material/Switch";
 
 const useStyles = makeStyles({
   root: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
   subdiv: {
     background: "#7ed6df",
     padding: 20,
-    width: 700,
+    width: "100%",
     marginTop: 5,
   },
 });
@@ -54,7 +55,10 @@ const handleSubmit = () => {
 
 function Products(props) {
   const classes = useStyles();
-
+  const [checked, setChecked] = React.useState(true);
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   return (
     <div className={classes.root}>
       <style jsx>
@@ -79,7 +83,7 @@ function Products(props) {
             Upload Videos
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <FormControl fullWidth>
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Stream
@@ -87,15 +91,23 @@ function Products(props) {
               <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Category"></Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <FormControl fullWidth>
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Certification
+                Course
               </InputLabel>
               <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sub Category"></Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
+            <FormControl fullWidth>
+              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                Chapter
+              </InputLabel>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sub Category"></Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={2}>
             <FormControl fullWidth>
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Instructor Name
@@ -103,7 +115,7 @@ function Products(props) {
               <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Brands"></Select>
             </FormControl>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -114,7 +126,13 @@ function Products(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={1}>
+          Status:  <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+          </Grid>
+          <Grid item xs={1}>
+          Featured:  <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+          </Grid>
+          <Grid item xs={3}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -125,52 +143,40 @@ function Products(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Price"
+              label="Title"
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Offer Price"
+              label="URL"
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={2}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="Offer Available"
+              label="Duration"
               fullWidth
             />
           </Grid>
 
-          <Grid item xs={6}>
-            <FormControl fullWidth>
-              <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                Sales Status
-              </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Sales Status">
-                <MenuItem value={"Trending"}>Trending</MenuItem>
-                <MenuItem value={"Most Selling"}>Most Selling</MenuItem>
-                <MenuItem value={"Popular"}>Popular</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid item xs={6} style={{ justifyContent: "center", alignItems: "center" }}>
             <label htmlFor="contained-button-file">
               <Input accept="video/*" id="contained-button-file" multiple type="file" />

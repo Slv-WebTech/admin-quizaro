@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
-import { getData, serverURL } from "./FetchNodeServices";
+import { getData, postData, serverURL } from "./FetchNodeServices";
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
-import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
+import { Grid, TextField, Button } from "@mui/material";
 
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Swal from "sweetalert2";
 
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -52,39 +50,81 @@ const useStyles = makeStyles({
     background: "#7ed6df",
     padding: 20,
     width: 1000,
-    marginTop: 50,
+    marginTop: 10,
   },
 });
 
 export default function DisplayAllInstitutes(props) {
   const classes = useStyles();
+  const [instituteid, setInstituteId] = React.useState([]);
+  const [institutename, setInstituteName] = useState("");
+  const [description, setDescription] = useState("");
   const [list, setList] = useState([]);
-  const fetchInstructors = async () => {
-    var result = await getData("institute/allInstitutes");
+  const fetchInstitute = async () => {
+    var result = await getData("institute/allinstitutes");
     setList(result.result);
   };
   useEffect(function () {
-    fetchInstructors();
+    fetchInstitute();
   }, []);
   const [open, setOpen] = useState(false);
 
-  const [showButton, setShowButton] = useState(false);
-
-  const [btnStatus, setBtnStatus] = useState(true);
-
-  const handleCancel = () => {
-    setShowButton(false);
-    setBtnStatus(true);
-  };
-
   const handleOpen = (rowData) => {
+    setInstituteId(rowData.instituteid);
+    setInstituteName(rowData.institutename);
+    setDescription(rowData.description);
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    fetchInstitute();
   };
 
+  const handleDelete = async (rowData) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        var dresult = await postData("institute/deletedata", { instituteid: rowData.instituteid });
+        if (dresult.result) {
+          Swal.fire("Deleted!", "student has been deleted.", "success");
+        }
+      }
+      fetchInstitute();
+    });
+  };
+
+  const handleSubmit = async () => {
+    var result = await postData("institute/editdata", {
+      instituteid: instituteid,
+      institutename: institutename,
+      description: description,
+    });
+    if (result.result) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Institute has been updated",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "Fail to update Institute",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
   /***********************Dialog ****************************************************/
 
   const showDialog = () => {
@@ -112,95 +152,31 @@ export default function DisplayAllInstitutes(props) {
               <div className={classes.dsubdiv}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-                    Edit Student
+                    Edit Institute
                   </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Student Id
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Student Id"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Course
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Course"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Name
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Name"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={8}>
+                  <Grid item xs={5}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Instructor Name"
+                      label="Institute Name"
+                      value={institutename}
+                      onChange={(event) => setInstituteName(event.target.value)}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={7}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Due"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Access Till"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Offer"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Status"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Enrollment"
+                      label="Description"
+                      value={description}
+                      onChange={(event) => setDescription(event.target.value)}
                       fullWidth
                     />
                   </Grid>
@@ -214,62 +190,10 @@ export default function DisplayAllInstitutes(props) {
                       }}
                       variant="contained"
                       fullWidth
+                      onClick={handleSubmit}
                     >
                       Edit Data
                     </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Divider style={{ background: "#FFF" }} />
-                  </Grid>
-
-                  <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {btnStatus ? (
-                      <>
-                        <label htmlFor="contained-button-file">
-                          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                          <Button
-                            style={{
-                              background: "#FFF",
-                              color: "#7ed6df",
-                              fontWeight: "bold",
-                            }}
-                            variant="contained"
-                            component="span"
-                            fullWidth
-                          >
-                            Upload
-                          </Button>
-                        </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {showButton ? (
-                      <div>
-                        <Button style={{ color: "#FFF", fontWeight: "bold" }}>Save</Button>
-                        <Button onClick={handleCancel} style={{ color: "#FFF", fontWeight: "bold" }}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                      // variant="rounded"
-                      sx={{ width: 70, height: 70 }}
-                    />
                   </Grid>
                 </Grid>
               </div>
@@ -300,10 +224,8 @@ export default function DisplayAllInstitutes(props) {
             render: (rowData) => <img src={`${serverURL}/images/${rowData.icon}`} style={{ maxWidth: 70, borderRadius: "10%" }} alt="" />,
           },
           { title: "Institute Name", field: "institutename" },
-        
-          { title: "Description", field: "description" },
 
-         
+          { title: "Description", field: "description" },
         ]}
         data={list}
         actions={[
@@ -317,6 +239,9 @@ export default function DisplayAllInstitutes(props) {
           {
             icon: "delete",
             tooltip: "Delete Institute",
+            onClick: (event, rowData) => {
+              handleDelete(rowData);
+            },
           },
         ]}
       />

@@ -58,19 +58,22 @@ function Courses(props) {
   const [description, setDescription] = useState("");
   const [tag, setTag] = useState("");
   const [coursetag, setCourseTag] = useState("");
-  const [paid, setPaid] = useState(true);
-  const [featured, setFeatured] = useState(true);
+  const [paid, setPaid] = React.useState(true);
+  const [featured, setFeatured] = React.useState(true);
   const [requirements, setRequirements] = useState("");
   const [url, setUrl] = useState("");
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = React.useState(true);
   const [duration, setDuration] = useState("");
   const [instructorrevenue, setInstructorRevenue] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = React.useState("");
   const [offerprice, setOfferPrice] = useState("");
   const [offeravailable, setOfferAvailable] = useState("");
-  const [assignment, setAssignment] = useState(true);
-  const [certificate, setCertificate] = useState(true);
-  const [list, setList] = useState([]);
+  const [assignment, setAssignment] = React.useState(true);
+  const [certificate, setCertificate] = React.useState(true);
+  const [slist, setSList] = useState([]);
+  const [clist, setCList] = useState([]);
+  const [ilist, setIList] = useState([]);
+  const [inlist, setInList] = useState([]);
 
   const [icon, setIcon] = useState({ bytes: "", filename: "/quizaro.png" });
 
@@ -84,14 +87,14 @@ function Courses(props) {
 
   const fetchStream = async () => {
     var result = await getData("stream/allstreams");
-    setList(result.result);
+    setSList(result.result);
   };
   useEffect(function () {
     fetchStream();
   }, []);
 
   const fillStream = () => {
-    return list.map((item) => {
+    return slist.map((item) => {
       return <MenuItem value={item.streamid}>{item.streamname}</MenuItem>;
     });
   };
@@ -101,15 +104,49 @@ function Courses(props) {
 
   const fetchCertification = async () => {
     var result = await getData("certification/allcertifications");
-    setList(result.result);
+    setCList(result.result);
   };
   useEffect(function () {
     fetchCertification();
   }, []);
 
   const fillCertification = () => {
-    return list.map((item) => {
+    return clist.map((item) => {
       return <MenuItem value={item.certificationid}>{item.certificationname}</MenuItem>;
+    });
+  };
+  const handleInstructorChange = (event) => {
+    setInstructorId(event.target.value);
+  };
+
+  const fetchInstructor = async () => {
+    var result = await getData("instructors/allinstructors");
+    setIList(result.result);
+  };
+  useEffect(function () {
+    fetchInstructor();
+  }, []);
+
+  const fillInstructor = () => {
+    return ilist.map((item) => {
+      return <MenuItem value={item.instructorid}>{item.firstname}</MenuItem>;
+    });
+  };
+  const handleInstituteChange = (event) => {
+    setInstituteId(event.target.value);
+  };
+
+  const fetchInstitute = async () => {
+    var result = await getData("institute/allinstitutes");
+    setInList(result.result);
+  };
+  useEffect(function () {
+    fetchInstitute();
+  }, []);
+
+  const fillInstitute = () => {
+    return inlist.map((item) => {
+      return <MenuItem value={item.instituteid}>{item.institutename}</MenuItem>;
     });
   };
 
@@ -201,7 +238,7 @@ function Courses(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Stream
               </InputLabel>
-              <Select value={streamid} onChange={(event) => setStreamId(event)} labelId="demo-simple-select-label" id="demo-simple-select" label="Stream">
+              <Select value={streamid} onChange={handleStreamChange} labelId="demo-simple-select-label" id="demo-simple-select" label="Stream">
                 {fillStream()}
               </Select>
             </FormControl>
@@ -227,7 +264,7 @@ function Courses(props) {
                 labelId="demo-simple-select-label"
                 value={certificationid}
                 id="demo-simple-select"
-                onChange={(event) => setCertificationId(event)}
+                onChange={handleCertificationChange}
                 label="Certification"
               >
                 {fillCertification()}
@@ -239,10 +276,8 @@ function Courses(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Instructor Name
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setInstructorId(event.target.value)} label="Instructor">
-                <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
-                <MenuItem value={"Lokesh Reddy"}>Lokesh Reddy </MenuItem>
-                <MenuItem value={"Yuvraj Quizaro"}>Yuvraj Quizaro </MenuItem>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={instructorid} onChange={handleInstructorChange} label="Instructor">
+                {fillInstructor()}
               </Select>
             </FormControl>
           </Grid>
@@ -265,8 +300,8 @@ function Courses(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Institute:
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setInstituteId(event.target.value)} label="Institute">
-                <MenuItem value={"Quizaro ExtendedEdge"}>Quizaro ExtendedEdge </MenuItem>
+              <Select labelId="demo-simple-select-label" id="demo-simple-select" value={instituteid} onChange={handleInstituteChange} label="Institute">
+                {fillInstitute()}
               </Select>
             </FormControl>
           </Grid>
@@ -348,12 +383,12 @@ function Courses(props) {
           <Grid item xs={1}>
             <FormControl fullWidth>
               Paid:
-              <Switch onChange={handlePaidChange} inputProps={{ "aria-label": "controlled" }} />
+              <Switch checked={paid} onChange={handlePaidChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Featured: <Switch onChange={handleFeaturedChange} inputProps={{ "aria-label": "controlled" }} />
+              Featured: <Switch checked={featured} onChange={handleFeaturedChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
           <Grid item xs={4}>
@@ -383,7 +418,7 @@ function Courses(props) {
           </Grid>
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Status: <Switch onChange={handleStatusChange} inputProps={{ "aria-label": "controlled" }} />
+              Status: <Switch checked={status} onChange={handleStatusChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
 
@@ -450,13 +485,13 @@ function Courses(props) {
 
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Assignment <Switch onChange={handleAssignmentChange} inputProps={{ "aria-label": "controlled" }} />
+              Assignment <Switch checked={assignment} onChange={handleAssignmentChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
 
           <Grid item xs={1}>
             <FormControl fullWidth>
-              Certificate <Switch onChange={handleCertificateChange} inputProps={{ "aria-label": "controlled" }} />
+              Certificate <Switch checked={certificate} onChange={handleCertificateChange} inputProps={{ "aria-label": "controlled" }} />
             </FormControl>
           </Grid>
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
-import { getData, serverURL } from "./FetchNodeServices";
+import { getData, postData, serverURL } from "./FetchNodeServices";
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
-import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
+import { Grid, TextField, Button } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Swal from "sweetalert2";
 
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
@@ -58,6 +60,13 @@ const useStyles = makeStyles({
 
 export default function DisplayAllInstructors(props) {
   const classes = useStyles();
+  const [instructorid, setInstructorId] = React.useState([]);
+  const [instructorname, setInstructorName] = useState("");
+  const [courseid, setCourseId] = React.useState([]);
+  const [courselist, setCourseList] = useState([]);
+  const [pending, setPending] = useState("");
+  const [accesstill, setAccessTill] = useState("");
+  const [status, setStatus] = useState("");
   const [list, setList] = useState([]);
   const fetchInstructors = async () => {
     var result = await getData("instructors/allInstructors");
@@ -68,24 +77,89 @@ export default function DisplayAllInstructors(props) {
   }, []);
   const [open, setOpen] = useState(false);
 
-  const [showButton, setShowButton] = useState(false);
-
-  const [btnStatus, setBtnStatus] = useState(true);
-
-  const handleCancel = () => {
-    setShowButton(false);
-    setBtnStatus(true);
-  };
-
   const handleOpen = (rowData) => {
+    setInstructorId(rowData.instructorid);
+    setInstructorName(rowData.firstname + rowData.lastname);
+    fetchCourse(rowData.course);
+    setPending(rowData.pending);
+    setAccessTill(rowData.accesstill);
+    setStatus(rowData.status);
+
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    fetchInstructors();
   };
 
   /***********************Dialog ****************************************************/
+
+  const handleCourseChange = (event) => {
+    setCourseId(event.target.value);
+    fetchInstructors(event.target.value);
+  };
+  const fetchCourse = async () => {
+    var result = await getData("courses/allcourses");
+    console.log(result);
+    setCourseList(result.result);
+  };
+  useEffect(function () {
+    fetchCourse();
+  }, []);
+
+  const fillCourses = () => {
+    return courselist.map((item) => {
+      return <MenuItem value={item.courseid}>{item.coursename}</MenuItem>;
+    });
+  };
+
+  const handleDelete = async (rowData) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        var dresult = await postData("instructors/deletedata", { instructorid: rowData.instructorid });
+        if (dresult.result) {
+          Swal.fire("Deleted!", "Instructor has been deleted.", "success");
+        }
+      }
+      fetchInstructors();
+    });
+  };
+
+  const handleSubmit = async () => {
+    var result = await postData("instructors/editdata", {
+      instructorid: instructorid,
+      courseid: courseid,
+      pending: pending,
+      accesstill: accesstill,
+      status: status,
+    });
+    if (result.result) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Instructor has been updated",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "Fail to update Instructor",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
 
   const showDialog = () => {
     return (
@@ -112,42 +186,37 @@ export default function DisplayAllInstructors(props) {
               <div className={classes.dsubdiv}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-                    Edit Student
+                    Edit Instructor
                   </Grid>
+
                   <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Student Id
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Student Id"></Select>
-                    </FormControl>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      value={instructorname}
+                      onChange={(event) => setInstructorName(event.target.value)}
+                      label="Instructor Name"
+                      fullWidth
+                    />
                   </Grid>
                   <Grid item xs={4}>
                     <FormControl fullWidth>
                       <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                         Course
                       </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Course"></Select>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={courseid}
+                        label="Course"
+                        onChange={(event) => handleCourseChange(event)}
+                      >
+                        {fillCourses()}
+                      </Select>
                     </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Name
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Name"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Instructor Name"
-                      fullWidth
-                    />
                   </Grid>
                   <Grid item xs={4}>
                     <CssTextField
@@ -156,7 +225,9 @@ export default function DisplayAllInstructors(props) {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Due"
+                      label="Pending"
+                      value={pending}
+                      onChange={(event) => setPending(event.target.value)}
                       fullWidth
                     />
                   </Grid>
@@ -168,20 +239,12 @@ export default function DisplayAllInstructors(props) {
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
                       label="Access Till"
+                      value={accesstill}
+                      onChange={(event) => setAccessTill(event.target.value)}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Offer"
-                      fullWidth
-                    />
-                  </Grid>
+
                   <Grid item xs={6}>
                     <CssTextField
                       variant="outlined"
@@ -190,17 +253,8 @@ export default function DisplayAllInstructors(props) {
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
                       label="Status"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Enrollment"
+                      value={status}
+                      onChange={(event) => setStatus(event.target.value)}
                       fullWidth
                     />
                   </Grid>
@@ -213,63 +267,11 @@ export default function DisplayAllInstructors(props) {
                         fontWeight: "bold",
                       }}
                       variant="contained"
+                      onClick={handleSubmit}
                       fullWidth
                     >
                       Edit Data
                     </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Divider style={{ background: "#FFF" }} />
-                  </Grid>
-
-                  <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {btnStatus ? (
-                      <>
-                        <label htmlFor="contained-button-file">
-                          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                          <Button
-                            style={{
-                              background: "#FFF",
-                              color: "#7ed6df",
-                              fontWeight: "bold",
-                            }}
-                            variant="contained"
-                            component="span"
-                            fullWidth
-                          >
-                            Upload
-                          </Button>
-                        </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {showButton ? (
-                      <div>
-                        <Button style={{ color: "#FFF", fontWeight: "bold" }}>Save</Button>
-                        <Button onClick={handleCancel} style={{ color: "#FFF", fontWeight: "bold" }}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                      // variant="rounded"
-                      sx={{ width: 70, height: 70 }}
-                    />
                   </Grid>
                 </Grid>
               </div>
@@ -302,9 +304,11 @@ export default function DisplayAllInstructors(props) {
           { title: "First Name", field: "firstname" },
           { title: "Last Name", field: "lastname" },
           { title: "Details", field: "details" },
-          
+          { title: "Course", field: "courseid" },
+          { title: "Pending", field: "pending" },
+          { title: "Access Till", field: "accesstill" },
+          { title: "Status", field: "status" },
           { title: "Contact Number", field: "mobile" },
-        
           { title: "Linkedin", field: "linkedinurl" },
         ]}
         data={list}
@@ -319,6 +323,9 @@ export default function DisplayAllInstructors(props) {
           {
             icon: "delete",
             tooltip: "Delete Instructors",
+            onClick: (event, rowData) => {
+              handleDelete(rowData);
+            },
           },
         ]}
       />

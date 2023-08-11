@@ -1,27 +1,22 @@
 import { React, useState } from "react";
 import { styled } from "@mui/material/styles";
-import Avatar from "@mui/material/Avatar";
+import { makeStyles } from "@mui/styles";
 import Stack from "@mui/material/Stack";
-
-import Grid from "@mui/material/Grid";
+import { Grid, TextField, Button, Avatar } from "@mui/material";
+import { postDataImage } from "./FetchNodeServices";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
-
+import Swal from "sweetalert2";
 import ButtonBase from "@mui/material/ButtonBase";
 import Typography from "@mui/material/Typography";
-
-import { makeStyles } from "@mui/styles";
-
-import Dialog from "@mui/material/Dialog";
-
-import { TextField, Button, Divider } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
-
+import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
+import Dialog from "@mui/material/Dialog";
+
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import AddStudent from "./Add Student";
 
 const CssTextField = styled(TextField)({
   "& .MuiOutlinedInput-root": {
@@ -52,17 +47,6 @@ const useStyles = makeStyles({
     padding: 20,
     width: 1500,
     marginTop: 5,
-  },
-  droot: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dsubdiv: {
-    background: "#7ed6df",
-    padding: 20,
-    width: 1000,
-    marginTop: 50,
   },
 });
 
@@ -135,26 +119,76 @@ const ImageMarked = styled("span")(({ theme }) => ({
   transition: theme.transitions.create("opacity"),
 }));
 
-const handleClick = () => {
-  alert("Clicked");
-};
-
-export default function Users() {
-  const classes = useStyles();
+export default function Students() {
   const [open, setOpen] = useState(false);
 
-  const [showButton, setShowButton] = useState(false);
+  const classes = useStyles();
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [email, setEmailId] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
+  const [details, setDetails] = useState("");
+  const [collegename, setCollegeName] = useState("");
+  const [year, setYear] = useState("");
+  const [address, setAddress] = useState("");
+  const [state, setState] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [youtubeurl, setPYoutubeUrl] = useState("");
+  const [twitterurl, setTwitterUrl] = useState("");
+  const [facebookurl, setFacebookUrl] = useState("");
+  const [linkedinurl, setLinkedinUrl] = useState("");
 
-  const [btnStatus, setBtnStatus] = useState(true);
+  const [image, setImage] = useState({ bytes: "", filename: "/quizaro.png" });
 
-  const handleCancel = () => {
-    setShowButton(false);
-    setBtnStatus(true);
+  const handleImageChange = (event) => {
+    setImage({ bytes: event.target.files[0], filename: URL.createObjectURL(event.target.files[0]) });
+  };
+  const handleSubmit = async () => {
+    alert("Submit");
+    var formData = new FormData();
+    formData.append("firstname", firstname);
+    formData.append("lastname", lastname);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("mobile", mobile);
+    formData.append("details", details);
+    formData.append("collegename", collegename);
+    formData.append("year", year);
+    formData.append("address", address);
+    formData.append("state", state);
+    formData.append("city", city);
+    formData.append("country", country);
+    formData.append("pincode", pincode);
+    formData.append("youtubeurl", youtubeurl);
+    formData.append("twitterurl", twitterurl);
+    formData.append("facebookurl", facebookurl);
+    formData.append("linkedinurl", linkedinurl);
+    formData.append("image", image.bytes);
+    var result = await postDataImage("students/savestudents", formData);
+    if (result.result) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Student Details has been saved",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "Fail to submit Student Details",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const handleOpen = (rowData) => {
     setOpen(true);
-   
   };
 
   const handleClose = () => {
@@ -168,7 +202,7 @@ export default function Users() {
       <div>
         <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
           <DialogContent>
-            <div className={classes.droot}>
+            <div className={classes.root}>
               <style jsx>
                 {`
                   fieldset.MuiOutlinedInput-notchedOutline {
@@ -185,43 +219,20 @@ export default function Users() {
                 `}
               </style>
 
-              <div className={classes.dsubdiv}>
+              <div className={classes.subdiv}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
                     Add Student
                   </Grid>
                   <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Student Id
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Student Id"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Course
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Course"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Name
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Name"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={8}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Instructor Name"
+                      label="First Name:"
+                      onChange={(event) => setFirstName(event.target.value)}
                       fullWidth
                     />
                   </Grid>
@@ -232,104 +243,240 @@ export default function Users() {
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Due"
+                      label="Last Name"
+                      onChange={(event) => setLastName(event.target.value)}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Access Till"
+                      label="Email Id:"
+                      onChange={(event) => setEmailId(event.target.value)}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={4}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Offer"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Status"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Enrollment"
+                      label="Mobile:"
+                      onChange={(event) => setMobile(event.target.value)}
                       fullWidth
                     />
                   </Grid>
 
-                  <Grid item xs={12}>
-                    <Button
-                      style={{
-                        background: "#FFF",
-                        color: "#7ed6df",
-                        fontWeight: "bold",
+                  <Grid item xs={4}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
                       }}
-                      variant="contained"
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Password"
                       fullWidth
-                    >
-                      Edit Data
-                    </Button>
+                    />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Divider style={{ background: "#FFF" }} />
+                  <Grid item xs={4}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Confirm Password"
+                      onChange={(event) => setPassword(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Detail:"
+                      onChange={(event) => setDetails(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="College Name:"
+                      onChange={(event) => setCollegeName(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid Grid item xs={4}>
+                    <FormControl fullWidth>
+                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                        Year Of Study:
+                      </InputLabel>
+                      <Select onChange={(event) => setYear(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="Year">
+                        <MenuItem value={"Ist"}>Ist Year </MenuItem>
+                        <MenuItem value={"IInd"}>IInd Year</MenuItem>
+                        <MenuItem value={"IIIrd"}>IIIrd Year </MenuItem>
+                        <MenuItem value={"IVth"}>IVth Year</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
+                    Address Details
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Address:"
+                      onChange={(event) => setAddress(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <FormControl fullWidth>
+                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                        State:
+                      </InputLabel>
+                      <Select onChange={(event) => setState(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="State">
+                        <MenuItem value={"Andhra Pradesh"}>Andhra Pradesh </MenuItem>
+                        <MenuItem value={"Arunachal Pradesh"}> Arunachal Pradesh</MenuItem>
+                        <MenuItem value={"Assam"}>Assam</MenuItem>
+                        <MenuItem value={"Bihar"}>Bihar</MenuItem>
+                        <MenuItem value={"Chhattisgarh"}>Chhattisgarh</MenuItem>
+                        <MenuItem value={"Goa"}>Goa</MenuItem>
+                        <MenuItem value={"Gujarat"}>Gujarat</MenuItem>
+                        <MenuItem value={"Haryana"}>Haryana</MenuItem>
+                        <MenuItem value={"Himachal Pradesh"}>Himachal Pradesh</MenuItem>
+                        <MenuItem value={"Jharkhand"}>Jharkhand</MenuItem>
+                        <MenuItem value={"Karnataka"}> Karnataka</MenuItem>
+                        <MenuItem value={"Kerala"}>Kerala</MenuItem>
+                        <MenuItem value={"Madhya Pradesh"}>Madhya Pradesh</MenuItem>
+                        <MenuItem value={"Maharashtra"}>Maharashtra</MenuItem>
+                        <MenuItem value={"Manipur"}>Manipur</MenuItem>
+                        <MenuItem value={"Meghalaya"}>Meghalaya</MenuItem>
+                        <MenuItem value={"Mizoram"}>Mizoram</MenuItem>
+                        <MenuItem value={"Nagaland"}>Nagaland</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="City:"
+                      onChange={(event) => setCity(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FormControl fullWidth>
+                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
+                        Country:
+                      </InputLabel>
+                      <Select onChange={(event) => setCountry(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="Country">
+                        <MenuItem value={"India"}>India</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Pincode:"
+                      onChange={(event) => setPincode(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
+                    Social Profile
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Facebook Url:"
+                      onChange={(event) => setFacebookUrl(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Twitter Url:"
+                      onChange={(event) => setTwitterUrl(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Youtube Url:"
+                      onChange={(event) => setPYoutubeUrl(event.target.value)}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <CssTextField
+                      variant="outlined"
+                      InputLabelProps={{
+                        style: { color: "#FFF" },
+                      }}
+                      inputProps={{ style: { color: "#FFF" } }}
+                      label="Linkedin Url:"
+                      onChange={(event) => setLinkedinUrl(event.target.value)}
+                      fullWidth
+                    />
                   </Grid>
 
-                  <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {btnStatus ? (
-                      <>
-                        <label htmlFor="contained-button-file">
-                          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                          <Button
-                            style={{
-                              background: "#FFF",
-                              color: "#7ed6df",
-                              fontWeight: "bold",
-                            }}
-                            variant="contained"
-                            component="span"
-                            fullWidth
-                          >
-                            Upload
-                          </Button>
-                        </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {showButton ? (
-                      <div>
-                        <Button style={{ color: "#FFF", fontWeight: "bold" }}>Save</Button>
-                        <Button onClick={handleCancel} style={{ color: "#FFF", fontWeight: "bold" }}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
+                  <Grid item xs={6} style={{ justifyContent: "center", alignItems: "center" }}>
+                    <label htmlFor="contained-button-file">
+                      <Input accept="image/*" onChange={(event) => handleImageChange(event)} id="contained-button-file" multiple type="file" />
+                      <Button
+                        style={{
+                          background: "#FFF",
+                          color: "#7ed6df",
+                          fontWeight: "bold",
+                        }}
+                        variant="contained"
+                        component="span"
+                        fullWidth
+                      >
+                        Upload - Image
+                      </Button>
+                    </label>
                   </Grid>
                   <Grid
                     item
@@ -340,12 +487,37 @@ export default function Users() {
                       alignItems: "center",
                     }}
                   >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                      // variant="rounded"
-                      sx={{ width: 70, height: 70 }}
-                    />
+                    <Avatar alt="Remy Sharp" src={image.filename} variant="rounded" sx={{ width: 100, height: 100 }} />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={2}>
+                    <Button
+                      style={{
+                        background: "#FFF",
+                        color: "#7ed6df",
+                        fontWeight: "bold",
+                      }}
+                      variant="contained"
+                      fullWidth
+                      value="Add"
+                      onClick={() => handleSubmit()}
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Button
+                      style={{
+                        background: "#FFF",
+                        color: "#7ed6df",
+                        fontWeight: "bold",
+                      }}
+                      variant="contained"
+                      fullWidth
+                    >
+                      Reset
+                    </Button>
                   </Grid>
                 </Grid>
               </div>

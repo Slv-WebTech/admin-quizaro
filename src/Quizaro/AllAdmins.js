@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MaterialTable from "@material-table/core";
 import { makeStyles } from "@mui/styles";
-import { getData, serverURL } from "./FetchNodeServices";
+import { getData, postData, serverURL } from "./FetchNodeServices";
 
 import Dialog from "@mui/material/Dialog";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar, Divider } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
-
+import Swal from "sweetalert2";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
@@ -53,12 +53,16 @@ const useStyles = makeStyles({
     background: "#7ed6df",
     padding: 20,
     width: 1000,
-    marginTop: 50,
+    marginTop: 10,
   },
 });
 
 export default function DisplayAllAdmins(props) {
   const classes = useStyles();
+  const [adminid, setAdminId] = React.useState([]);
+  const [adminname, setAdminName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [list, setList] = useState([]);
   const fetchAdmins = async () => {
     var result = await getData("Admins/allAdmins");
@@ -69,16 +73,12 @@ export default function DisplayAllAdmins(props) {
   }, []);
   const [open, setOpen] = useState(false);
 
-  const [showButton, setShowButton] = useState(false);
-
-  const [btnStatus, setBtnStatus] = useState(true);
-
-  const handleCancel = () => {
-    setShowButton(false);
-    setBtnStatus(true);
-  };
-
   const handleOpen = (rowData) => {
+    setAdminId(rowData.adminid);
+    setAdminName(rowData.firstname + rowData.lastname);
+    setEmail(rowData.email);
+    setPassword(rowData.password);
+
     setOpen(true);
   };
 
@@ -86,6 +86,50 @@ export default function DisplayAllAdmins(props) {
     setOpen(false);
   };
 
+  const handleDelete = async (rowData) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        var dresult = await postData("admins/deletedata", { adminid: rowData.adminid });
+        if (dresult.result) {
+          Swal.fire("Deleted!", "admin has been deleted.", "success");
+        }
+      }
+      fetchAdmins();
+    });
+  };
+
+  const handleSubmit = async () => {
+    var result = await postData("admins/editdata", {
+      adminid: adminid,
+      email: email,
+      password: password,
+    });
+    if (result.result) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Admin has been updated",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    } else {
+      Swal.fire({
+        position: "top-end",
+        icon: "fail",
+        title: "Fail to update Admin",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
+  };
   /***********************Dialog ****************************************************/
 
   const showDialog = () => {
@@ -113,95 +157,45 @@ export default function DisplayAllAdmins(props) {
               <div className={classes.dsubdiv}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
-                    Edit Student
+                    Edit Admin
                   </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Student Id
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Student Id"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Course
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Course"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
-                        Name
-                      </InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" label="Name"></Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={8}>
+
+                  <Grid item xs={3.5}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Instructor Name"
+                      label="Admin Name"
+                      value={adminname}
+                      onChange={(event) => setAdminName(event.target.value)}
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={5}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Due"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      label="Email ID"
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={3.5}>
                     <CssTextField
                       variant="outlined"
                       InputLabelProps={{
                         style: { color: "#FFF" },
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
-                      label="Access Till"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Offer"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Status"
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <CssTextField
-                      variant="outlined"
-                      InputLabelProps={{
-                        style: { color: "#FFF" },
-                      }}
-                      inputProps={{ style: { color: "#FFF" } }}
-                      label="Enrollment"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      label="Password"
                       fullWidth
                     />
                   </Grid>
@@ -214,63 +208,11 @@ export default function DisplayAllAdmins(props) {
                         fontWeight: "bold",
                       }}
                       variant="contained"
+                      onClick={handleSubmit}
                       fullWidth
                     >
                       Edit Data
                     </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Divider style={{ background: "#FFF" }} />
-                  </Grid>
-
-                  <Grid item xs={6} style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {btnStatus ? (
-                      <>
-                        <label htmlFor="contained-button-file">
-                          <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                          <Button
-                            style={{
-                              background: "#FFF",
-                              color: "#7ed6df",
-                              fontWeight: "bold",
-                            }}
-                            variant="contained"
-                            component="span"
-                            fullWidth
-                          >
-                            Upload
-                          </Button>
-                        </label>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                    {showButton ? (
-                      <div>
-                        <Button style={{ color: "#FFF", fontWeight: "bold" }}>Save</Button>
-                        <Button onClick={handleCancel} style={{ color: "#FFF", fontWeight: "bold" }}>
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <></>
-                    )}
-                  </Grid>
-                  <Grid
-                    item
-                    xs={6}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src=""
-                      // variant="rounded"
-                      sx={{ width: 70, height: 70 }}
-                    />
                   </Grid>
                 </Grid>
               </div>
@@ -311,14 +253,17 @@ export default function DisplayAllAdmins(props) {
         actions={[
           {
             icon: "edit",
-            tooltip: "edit Student",
+            tooltip: "edit Admin",
             onClick: (event, rowData) => {
               handleOpen(rowData);
             },
           },
           {
             icon: "delete",
-            tooltip: "Delete Category",
+            tooltip: "Delete Admin",
+            onClick: (event, rowData) => {
+              handleDelete(rowData);
+            },
           },
         ]}
       />
