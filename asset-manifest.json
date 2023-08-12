@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/adminquizaro/static/css/main.c3d4ec3e.css",
-    "main.js": "/adminquizaro/static/js/main.114a8a79.js",
-    "static/js/787.418978d1.chunk.js": "/adminquizaro/static/js/787.418978d1.chunk.js",
-    "index.html": "/adminquizaro/index.html",
-    "main.c3d4ec3e.css.map": "/adminquizaro/static/css/main.c3d4ec3e.css.map",
-    "main.114a8a79.js.map": "/adminquizaro/static/js/main.114a8a79.js.map",
-    "787.418978d1.chunk.js.map": "/adminquizaro/static/js/787.418978d1.chunk.js.map"
+    "main.css": "/admin-quizaro/static/css/main.c3d4ec3e.css",
+    "main.js": "/admin-quizaro/static/js/main.565b1f0a.js",
+    "static/js/787.418978d1.chunk.js": "/admin-quizaro/static/js/787.418978d1.chunk.js",
+    "index.html": "/admin-quizaro/index.html",
+    "main.c3d4ec3e.css.map": "/admin-quizaro/static/css/main.c3d4ec3e.css.map",
+    "main.565b1f0a.js.map": "/admin-quizaro/static/js/main.565b1f0a.js.map",
+    "787.418978d1.chunk.js.map": "/admin-quizaro/static/js/787.418978d1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c3d4ec3e.css",
-    "static/js/main.114a8a79.js"
+    "static/js/main.565b1f0a.js"
   ]
 }
