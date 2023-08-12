@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Admindashboard/static/css/main.c3d4ec3e.css",
-    "main.js": "/Admindashboard/static/js/main.a102a807.js",
-    "static/js/787.418978d1.chunk.js": "/Admindashboard/static/js/787.418978d1.chunk.js",
-    "index.html": "/Admindashboard/index.html",
-    "main.c3d4ec3e.css.map": "/Admindashboard/static/css/main.c3d4ec3e.css.map",
-    "main.a102a807.js.map": "/Admindashboard/static/js/main.a102a807.js.map",
-    "787.418978d1.chunk.js.map": "/Admindashboard/static/js/787.418978d1.chunk.js.map"
+    "main.css": "/adminquizaro/static/css/main.c3d4ec3e.css",
+    "main.js": "/adminquizaro/static/js/main.114a8a79.js",
+    "static/js/787.418978d1.chunk.js": "/adminquizaro/static/js/787.418978d1.chunk.js",
+    "index.html": "/adminquizaro/index.html",
+    "main.c3d4ec3e.css.map": "/adminquizaro/static/css/main.c3d4ec3e.css.map",
+    "main.114a8a79.js.map": "/adminquizaro/static/js/main.114a8a79.js.map",
+    "787.418978d1.chunk.js.map": "/adminquizaro/static/js/787.418978d1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c3d4ec3e.css",
-    "static/js/main.a102a807.js"
+    "static/js/main.114a8a79.js"
   ]
 }
