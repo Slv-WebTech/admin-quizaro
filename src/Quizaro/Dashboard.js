@@ -1,19 +1,19 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+
 import CastForEducationOutlinedIcon from "@mui/icons-material/CastForEducationOutlined";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
-import CardActions from "@mui/material/CardActions";
+
 import Card from "@mui/material/Card";
 import Chart from "./Chart";
 import Deposits from "./Deposits";
@@ -44,8 +44,8 @@ const message = `Education is the key to Success.`;
 
 export default function Dashboard() {
   return (
-    <Grid container spacing={4} sx={{ marginTop: 2, marginLeft: 2 }}>
-      <Grid sx={{ backgroundColor: "white", boxShadow: 6, borderRadius: 5, padding: 3 }} item xs={3}>
+    <Grid container sx={{ marginLeft: 2 }}>
+      <Grid sx={{ backgroundColor: "white", padding: 3 }} item xs={3}>
         <Typography variant="h3">Your Dashboard</Typography>
         <Typography variant="body1" color="text.secondary">
           Today's Dashboard
@@ -142,33 +142,31 @@ export default function Dashboard() {
           </Item>
         </Box>
       </Grid>
-      <Grid item xs={8}>
-        <Stack direction="row" spacing={4}>
-          <Item sx={{ borderRadius: 6, boxShadow: 8 }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar sx={{ backgroundColor: "#fff", borderRadius: 5 }} />
-            </LocalizationProvider>
-          </Item>
-          <Item sx={{ borderRadius: 6, boxShadow: 8 }}>
-            <Card sx={{ borderRadius: 6, width: 300, boxShadow: "none" }}>
-              <CardContent sx={{ height: 330, background: "#fff", padding: 2 }}>
-                <Typography sx={{ fontSize: 25, fontWeight: "bold" }} color="black" gutterBottom>
-                  Good Evening , Sir
-                </Typography>
-                <Typography variant="body1">
-                  "It's a fact that online learning is the future and will undoubtedly replace land-based learning in the future."
-                </Typography>
-                <Typography>Have a nice day....</Typography>
-                <Typography variant="body1" sx={{ mt: 1 }}>
-                  Don't Forgot to attend Classes ...
-                </Typography>
-                {/* <CardActions>
+      <Grid item xs={8} mt={2}>
+        <Stack direction="row">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar sx={{ backgroundColor: "#fff", borderRadius: 5 }} />
+          </LocalizationProvider>
+
+          <Card sx={{ borderRadius: 6, width: 300, boxShadow: "none" }}>
+            <CardContent sx={{ height: 330, background: "#fff", padding: 2 }}>
+              <Typography sx={{ fontSize: 25, fontWeight: "bold" }} color="black" gutterBottom>
+                Good Evening , Sir
+              </Typography>
+              <Typography variant="body1">
+                "It's a fact that online learning is the future and will undoubtedly replace land-based learning in the future."
+              </Typography>
+              <Typography>Have a nice day....</Typography>
+              <Typography variant="body1" sx={{ mt: 1 }}>
+                Don't Forgot to attend Classes ...
+              </Typography>
+              {/* <CardActions>
                   <Button size="80">Your report →</Button>
                 </CardActions> */}
-              </CardContent>
-            </Card>
-          </Item>
-          <Item sx={{ borderRadius: 4, boxShadow: 8, padding: 2 }}>
+            </CardContent>
+          </Card>
+
+          <Item sx={{ padding: 2 }}>
             <Deposits />
             <hr />
             <Typography variant="h5" fontWeight={900}>
@@ -177,11 +175,11 @@ export default function Dashboard() {
             <hr />
             <Deposits />
           </Item>
-          <Item sx={{ boxShadow: 8 }}>
+          <Item>
             <Typography variant="h5"> Popular Courses</Typography>
-            <Avatar alt="Admin" src="https://source.unsplash.com/random?mobile" sx={{ marginTop: 2, width: 90, height: 90 }} />
-            <Avatar alt="Admin" src="https://source.unsplash.com/random?tablet" sx={{ marginTop: 2, width: 90, height: 90 }} />
-            <Avatar alt="Admin" src="https://source.unsplash.com/random?bluetooth" sx={{ marginTop: 2, width: 90, height: 90 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?mobile" sx={{ marginTop: 2, marginLeft: 3, width: 90, height: 90 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?tablet" sx={{ marginTop: 2, marginLeft: 3, width: 90, height: 90 }} />
+            <Avatar alt="Admin" src="https://source.unsplash.com/random?bluetooth" sx={{ marginTop: 2, marginLeft: 3, width: 90, height: 90 }} />
           </Item>
         </Stack>
         <Grid mt={2} item xs={5}>
@@ -210,8 +208,7 @@ export default function Dashboard() {
       <Grid item xs={12}>
         <Chart />
       </Grid>
-
-      <Grid item xs={5} sx={{ backgroundColor: "#fff", borderRadius: 5, boxShadow: 8 }}>
+      <Grid item xs={5} sx={{ backgroundColor: "#fff" }}>
         <Timeline position="alternate">
           <TimelineItem>
             <TimelineOppositeContent sx={{ m: "auto 0" }} align="right" variant="body2" color="text.secondary">
@@ -281,7 +278,7 @@ export default function Dashboard() {
           </TimelineItem>
         </Timeline>
       </Grid>
-      <Grid item xs={6} sx={{ backgroundColor: "#fff", borderRadius: 5, marginLeft: 8, boxShadow: 8 }}>
+      <Grid item xs={6} sx={{ backgroundColor: "#fff" }}>
         <Orders />
       </Grid>
     </Grid>

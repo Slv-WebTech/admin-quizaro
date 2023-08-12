@@ -4,9 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
+
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ExpandLess from "@mui/icons-material/ExpandLess";
@@ -14,7 +12,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
-import FilterListOutlinedIcon from "@mui/icons-material/FilterListOutlined";
+
 import Divider from "@mui/material/Divider";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FullStack from "./FullStack";
@@ -70,9 +68,9 @@ import AllAdmins from "./AllAdmins";
 import AllInstitutes from "./AllInstitutes";
 import AllStreams from "./AllStreams";
 import AllCertifications from "./AllCertifications";
-import AdminLogin from "./Adminlogin";
+// import AdminLogin from "./Adminlogin";
 import { Avatar, Typography } from "@mui/material";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
 
 export default function AdminListItems(props) {
@@ -143,7 +141,7 @@ export default function AdminListItems(props) {
       <Collapse in={courseopen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton onClick={handleTechicalopen}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <ImportantDevicesIcon />
             </ListItemIcon>
             <ListItemText primary="Technical" />
@@ -152,25 +150,25 @@ export default function AdminListItems(props) {
           <Collapse in={technicalopen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton onClick={() => handleClick(<FullStack setViewContainer={props.setViewContainer} />)}>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <DvrIcon />
                 </ListItemIcon>
                 <ListItemText primary="Full Stack Development" />
               </ListItemButton>
               <ListItemButton onClick={() => handleClick(<AWS setViewContainer={props.setViewContainer} />)}>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <CloudIcon />
                 </ListItemIcon>
                 <ListItemText primary="AWS Cloud" />
               </ListItemButton>
               <ListItemButton onClick={() => handleClick(<Android setViewContainer={props.setViewContainer} />)}>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <AppShortcutIcon />
                 </ListItemIcon>
                 <ListItemText primary="Android Development" />
               </ListItemButton>
               <ListItemButton onClick={() => handleClick(<CyberSecurity setViewContainer={props.setViewContainer} />)}>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <SecurityIcon />
                 </ListItemIcon>
                 <ListItemText primary="Cyber Security" />
@@ -187,7 +185,7 @@ export default function AdminListItems(props) {
           <Collapse in={coreopen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton onClick={() => handleClick(<AutoCad setViewContainer={props.setViewContainer} />)}>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <PrecisionManufacturingIcon />
                 </ListItemIcon>
                 <ListItemText primary="AutoCad" />
@@ -204,19 +202,19 @@ export default function AdminListItems(props) {
           <Collapse in={managementopen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton onClick={() => handleClick(<Stock setViewContainer={props.setViewContainer} />)}>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <ShowChartIcon />
                 </ListItemIcon>
                 <ListItemText primary="Stock Market" />
               </ListItemButton>
               <ListItemButton>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <AirlineSeatReclineNormalIcon />
                 </ListItemIcon>
                 <ListItemText primary="Human Resources" />
               </ListItemButton>
               <ListItemButton>
-                <ListItemIcon sx={{ pl: 2 }}>
+                <ListItemIcon>
                   <AccountBalanceWalletIcon />
                 </ListItemIcon>
                 <ListItemText primary="Finance" />
@@ -245,20 +243,20 @@ export default function AdminListItems(props) {
       <Collapse in={usersopen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton onClick={() => handleClick(<Admins setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <AdminPanelSettingsIcon />
             </ListItemIcon>
             <ListItemText primary="Admin" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<Students setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <ManIcon />
               <WomanIcon />
             </ListItemIcon>
             <ListItemText primary="Students" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<Instructors setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <CastForEducationIcon />
             </ListItemIcon>
             <ListItemText primary="Instructors" />
@@ -275,49 +273,49 @@ export default function AdminListItems(props) {
       <Collapse in={formopen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton onClick={() => handleClick(<AddUser setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary="Add User" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddStudent setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary="Add Student" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddInstructor setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary="Add Instructor" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddAdmin setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
             <ListItemText primary="Add Admin" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddStream setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="Add Stream" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddCertification setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="Add Certification" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddInstitute setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="Add Institute" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddLanguage setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="Add Language" />
@@ -329,13 +327,13 @@ export default function AdminListItems(props) {
             <ListItemText primary="Add Combo Course" />
           </ListItemButton> */}
           <ListItemButton onClick={() => handleClick(<AddCourse setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="Add Course" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<UploadVideo setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
             <ListItemText primary="Upload Video" />
@@ -352,38 +350,38 @@ export default function AdminListItems(props) {
       <Collapse in={display} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
           <ListItemButton onClick={() => handleClick(<AllStudents setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <ManIcon />
               <WomanIcon />
             </ListItemIcon>
             <ListItemText primary="All Student" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AllAdmins setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <AdminPanelSettingsIcon />
             </ListItemIcon>
             <ListItemText primary="All Admins" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AllInstructors setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <CastForEducationIcon />
             </ListItemIcon>
             <ListItemText primary="All Instructors" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AllInstitutes setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <CorporateFareIcon />
             </ListItemIcon>
             <ListItemText primary="All Institutes" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AllCertifications setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <CardMembershipIcon />
             </ListItemIcon>
             <ListItemText primary="All Certifications" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AllStreams setViewContainer={props.setViewContainer} />)}>
-            <ListItemIcon sx={{ pl: 2 }}>
+            <ListItemIcon>
               <HistoryEduIcon />
             </ListItemIcon>
             <ListItemText primary="All Streams" />

@@ -29,9 +29,7 @@ const CssTextField = styled(TextField)({
     },
   },
 });
-const Input = styled("input")({
-  display: "none",
-});
+
 
 const useStyles = makeStyles({
   root: {

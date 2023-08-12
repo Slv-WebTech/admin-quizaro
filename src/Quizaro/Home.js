@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
-import { useTheme } from "@mui/material/styles";
+// import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -14,10 +14,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
-import CardMedia from "@mui/material/CardMedia";
-import AvTimerOutlinedIcon from "@mui/icons-material/AvTimerOutlined";
-import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
-import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 
@@ -96,9 +92,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const RegistrationForm = () => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
   const handleClose = () => {
     setOpen(false);
   };
@@ -150,7 +146,7 @@ function Dashboard(props) {
   const [view, setView] = useState(<Course />);
 
   const classes = useStyles();
-  const theme = useTheme();
+  // const theme = useTheme();
   // const [personName, setPersonName] = React.useState([]);
   // const handleChange = (event) => {
   //   const {

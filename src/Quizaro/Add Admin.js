@@ -44,20 +44,18 @@ const Input = styled("input")({
 
 function Admins(props) {
   const classes = useStyles();
-
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
   const [email, setEmailId] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [details, setDetails] = useState("");
+  const [fname, setFName] = useState("");
 
   const [address, setAddress] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [pincode, setPincode] = useState("");
-  const [youtubeurl, setPYoutubeUrl] = useState("");
+  const [youtubeurl, setYoutubeUrl] = useState("");
   const [twitterurl, setTwitterUrl] = useState("");
   const [facebookurl, setFacebookUrl] = useState("");
   const [linkedinurl, setLinkedinUrl] = useState("");
@@ -70,8 +68,7 @@ function Admins(props) {
   const handleSubmit = async () => {
     alert("Submit");
     var formData = new FormData();
-    formData.append("firstname", firstname);
-    formData.append("lastname", lastname);
+    formData.append("fname", fname);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("mobile", mobile);
@@ -94,6 +91,7 @@ function Admins(props) {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClear();
     } else {
       Swal.fire({
         icon: "fail",
@@ -102,6 +100,23 @@ function Admins(props) {
         timer: 1500,
       });
     }
+  };
+  const handleClear = () => {
+    setFName("");
+    setEmailId("");
+    setMobile("");
+    setPassword("");
+    setDetails("");
+    setAddress("");
+    setState("");
+    setCity("");
+    setCountry("");
+    setPincode("");
+    setYoutubeUrl("");
+    setTwitterUrl("");
+    setFacebookUrl("");
+    setLinkedinUrl("");
+    setImage({ bytes: "", filename: "/quizaro.png" });
   };
 
   return (
@@ -127,6 +142,7 @@ function Admins(props) {
           <Grid item xs={12} style={{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
             Admin Details
           </Grid>
+
           <Grid item xs={2}>
             <CssTextField
               variant="outlined"
@@ -134,24 +150,12 @@ function Admins(props) {
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="First Name:"
-              onChange={(event) => setFirstName(event.target.value)}
+              label="Full Name"
+              onChange={(event) => setFName(event.target.value)}
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
-            <CssTextField
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: "#FFF" },
-              }}
-              inputProps={{ style: { color: "#FFF" } }}
-              label="Last Name"
-              onChange={(event) => setLastName(event.target.value)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={2.5}>
+          <Grid item xs={1.9}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -163,7 +167,7 @@ function Admins(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.8}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -176,7 +180,7 @@ function Admins(props) {
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={1.8}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -199,7 +203,7 @@ function Admins(props) {
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -323,7 +327,7 @@ function Admins(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Youtube Url:"
-              onChange={(event) => setPYoutubeUrl(event.target.value)}
+              onChange={(event) => setYoutubeUrl(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -393,6 +397,7 @@ function Admins(props) {
                 color: "#7ed6df",
                 fontWeight: "bold",
               }}
+              onClick={() => handleClear()}
               variant="contained"
               fullWidth
             >

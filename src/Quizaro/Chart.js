@@ -2,9 +2,8 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { PieChart } from "@mui/x-charts/PieChart";
-import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
+
+
 
 const data = [
   { label: "Group A", value: 400 },
@@ -13,18 +12,11 @@ const data = [
   { label: "Group D", value: 200 },
 ];
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  maxWidth: 500,
-}));
+
 export default function PieChartWithPaddingAngle() {
   return (
-    <Stack direction="row" spacing={2} mb={5}>
-      <Item sx={{ backgroundColor: "#fff", borderRadius: 5, boxShadow: 8 }}>
+    <Stack direction="row" >
+    
         <PieChart
           series={[
             {
@@ -39,8 +31,8 @@ export default function PieChartWithPaddingAngle() {
           height={200}
           legend={{ hidden: true }}
         />
-      </Item>
-      <Item sx={{ backgroundColor: "#fff", borderRadius: 5, boxShadow: 8 }}>
+   
+     
         <PieChart
           series={[
             {
@@ -57,8 +49,8 @@ export default function PieChartWithPaddingAngle() {
           height={200}
           legend={{ hidden: true }}
         />
-      </Item>
-      <Item sx={{ backgroundColor: "#fff", borderRadius: 5, boxShadow: 8 }}>
+     
+    
         <LineChart
           xAxis={[{ data: [1, 2, 3, 5, 8, 10] }]}
           series={[
@@ -69,7 +61,7 @@ export default function PieChartWithPaddingAngle() {
           width={500}
           height={300}
         />
-      </Item>
+     
     </Stack>
   );
 }

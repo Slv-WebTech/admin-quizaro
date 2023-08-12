@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import { Box, Button } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { makeStyles } from "@mui/styles";
-import { postData, getData, serverURL } from "./FetchNodeServices";
+import {  getData } from "./FetchNodeServices";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 import Avatar from "@mui/material/Avatar";
@@ -64,20 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  subdiv: {
-    padding: 10,
-    // width: 700,
-  },
-  card: {
-    backgroundColor: "#F6F6F6",
-  },
-});
+
 
 export default function Header() {
   const [courses, setCourses] = React.useState([]);

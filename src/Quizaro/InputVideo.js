@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function VideoInput(props) {
-  const { width, height } = props;
+  const { height } = props;
 
   const inputRef = React.useRef();
 

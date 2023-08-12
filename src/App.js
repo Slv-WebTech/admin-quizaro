@@ -18,6 +18,7 @@ import Test4 from "./Quizaro/Test4";
 import Test5 from "./Quizaro/Test5";
 import Test6 from "./Quizaro/test6";
 import Test8 from "./Quizaro/test8";
+import Test9 from "./Quizaro/test9";
 import "./Quizaro/videoinput.css";
 import VideoInput from "./Quizaro/InputVideo";
 import StudentDashboard from "./Quizaro/StudentDashboard";
@@ -37,8 +38,9 @@ import AddInstitute from "./Quizaro/Add Institute";
 function App(props) {
   return (
     <div>
-      <BrowserRouter>
+      <BrowserRouter basename="/admin-quizaro">
         <Routes>
+          <Route history={props.history} element={<AdminDashboard />} path="/Admindashboard" />
           <Route history={props.history} element={<Header />} path="/header" />
           <Route history={props.history} element={<Dashboard />} path="/dashboard" />
           <Route history={props.history} element={<Dropdown />} path="/dropdown" />
@@ -57,11 +59,11 @@ function App(props) {
           <Route history={props.history} element={<Test6 />} path="/test6" />
           <Route history={props.history} element={<Test5 />} path="/test5" />
           <Route history={props.history} element={<Test8 />} path="/test8" />
+          <Route history={props.history} element={<Test9 />} path="/test9" />
           <Route history={props.history} element={<VideoInput />} path="/videoinput" />
           <Route history={props.history} element={<StudentDashboard />} path="/studentdashboard" />
 
           <Route history={props.history} element={<login />} path="/login" />
-          <Route history={props.history} element={<AdminDashboard />} path="/Admindashboard" />
           <Route history={props.history} element={<Adminlogin />} path="/adminlogin" />
           <Route history={props.history} element={<Home />} path="/home" />
           <Route history={props.history} element={<Chart />} path="/Chart" />
