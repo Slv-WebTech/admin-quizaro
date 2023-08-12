@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/adminquizaro/AdminDashboard/static/css/main.c3d4ec3e.css",
-    "main.js": "/adminquizaro/AdminDashboard/static/js/main.431bf6d2.js",
-    "static/js/787.418978d1.chunk.js": "/adminquizaro/AdminDashboard/static/js/787.418978d1.chunk.js",
-    "index.html": "/adminquizaro/AdminDashboard/index.html",
-    "main.c3d4ec3e.css.map": "/adminquizaro/AdminDashboard/static/css/main.c3d4ec3e.css.map",
-    "main.431bf6d2.js.map": "/adminquizaro/AdminDashboard/static/js/main.431bf6d2.js.map",
-    "787.418978d1.chunk.js.map": "/adminquizaro/AdminDashboard/static/js/787.418978d1.chunk.js.map"
+    "main.css": "/adminquizaro/static/css/main.c3d4ec3e.css",
+    "main.js": "/adminquizaro/static/js/main.2b74bc5a.js",
+    "static/js/787.418978d1.chunk.js": "/adminquizaro/static/js/787.418978d1.chunk.js",
+    "index.html": "/adminquizaro/index.html",
+    "main.c3d4ec3e.css.map": "/adminquizaro/static/css/main.c3d4ec3e.css.map",
+    "main.2b74bc5a.js.map": "/adminquizaro/static/js/main.2b74bc5a.js.map",
+    "787.418978d1.chunk.js.map": "/adminquizaro/static/js/787.418978d1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c3d4ec3e.css",
-    "static/js/main.431bf6d2.js"
+    "static/js/main.2b74bc5a.js"
   ]
 }
