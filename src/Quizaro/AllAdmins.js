@@ -9,7 +9,6 @@ import { Grid, TextField, Button } from "@mui/material";
 
 import Swal from "sweetalert2";
 
-
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 
@@ -27,7 +26,6 @@ const CssTextField = styled(TextField)({
     },
   },
 });
-
 
 const useStyles = makeStyles({
   root: {
@@ -72,7 +70,7 @@ export default function DisplayAllAdmins(props) {
 
   const handleOpen = (rowData) => {
     setAdminId(rowData.adminid);
-    setAdminName(rowData.firstname + rowData.lastname);
+    setAdminName(rowData.fname);
     setEmail(rowData.email);
     setPassword(rowData.password);
 
@@ -239,8 +237,7 @@ export default function DisplayAllAdmins(props) {
             field: "image",
             render: (rowData) => <img src={`${serverURL}/images/${rowData.image}`} style={{ maxWidth: 70, borderRadius: "25%" }} alt="" />,
           },
-          { title: "First Name", field: "firstname" },
-          { title: "Last Name", field: "lastname" },
+          { title: "Admin Name", field: "fname" },
           { title: "Details", field: "details" },
           { title: "Email Id", field: "email" },
           { title: "Password", field: "password" },

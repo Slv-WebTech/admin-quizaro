@@ -1,8 +1,7 @@
 {
-  "homepage": "https://Slv1-webpage.github.io/admin-quizaro",
   "name": "adminquizaro",
   "version": "0.1.0",
-  "private": false,
+  "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -24,6 +23,7 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.9",
     "gh-pages": "^6.0.0",
+    "n-krypta": "^1.0.6",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
@@ -36,11 +36,10 @@
     "styled-components": "^5.3.11",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.19",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

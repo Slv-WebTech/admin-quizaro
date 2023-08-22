@@ -30,7 +30,6 @@ const CssTextField = styled(TextField)({
   },
 });
 
-
 const useStyles = makeStyles({
   root: {
     display: "flex",
@@ -58,7 +57,7 @@ const useStyles = makeStyles({
 
 export default function DisplayAllStudents(props) {
   const classes = useStyles();
-  const [firstname, setFirstName] = useState("");
+  const [fname, setFName] = useState("");
   const [studentid, setStudentId] = React.useState([]);
   const [courseid, setCourseId] = React.useState([]);
   const [courselist, setCourseList] = useState([]);
@@ -75,7 +74,7 @@ export default function DisplayAllStudents(props) {
 
   const handleOpen = (rowData) => {
     setStudentId(rowData.studentid);
-    setFirstName(rowData.firstname + rowData.lastname);
+    setFName(rowData.fname);
     fetchCourse(rowData.course);
     setCourseId(rowData.courseid);
     fetchInstructors(rowData.instructor);
@@ -128,7 +127,7 @@ export default function DisplayAllStudents(props) {
 
   const fillInstructors = () => {
     return instructorlist.map((item) => {
-      return <MenuItem value={item.instructorid}>{item.firstname + item.lastname}</MenuItem>;
+      return <MenuItem value={item.instructorid}>{item.fname}</MenuItem>;
     });
   };
 
@@ -217,8 +216,8 @@ export default function DisplayAllStudents(props) {
                       }}
                       inputProps={{ style: { color: "#FFF" } }}
                       label="Student Name"
-                      value={firstname}
-                      onChange={(event) => setFirstName(event.target.value)}
+                      value={fname}
+                      onChange={(event) => setFName(event.target.value)}
                       fullWidth
                     />
                   </Grid>
@@ -369,8 +368,7 @@ export default function DisplayAllStudents(props) {
             field: "image",
             render: (rowData) => <img src={`${serverURL}/images/${rowData.image}`} style={{ maxWidth: 70, borderRadius: "25%" }} alt="" />,
           },
-          { title: "First Name", field: "firstname" },
-          { title: "Last Name", field: "lastname" },
+          { title: "Student Name", field: "fname" },
           { title: "Details", field: "details" },
           { title: "Due", field: "due" },
           { title: "Access Till", field: "accesstill" },

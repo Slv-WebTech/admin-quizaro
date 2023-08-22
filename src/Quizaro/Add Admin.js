@@ -3,6 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar } from "@mui/material";
 import Swal from "sweetalert2";
+import { object, string } from "yup";
 // import { borderRadius } from "@mui/system";
 
 import InputLabel from "@mui/material/InputLabel";
@@ -47,9 +48,9 @@ function Admins(props) {
   const [email, setEmailId] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
   const [details, setDetails] = useState("");
   const [fname, setFName] = useState("");
-
   const [address, setAddress] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
@@ -106,6 +107,7 @@ function Admins(props) {
     setEmailId("");
     setMobile("");
     setPassword("");
+    setCPassword("");
     setDetails("");
     setAddress("");
     setState("");
@@ -119,6 +121,44 @@ function Admins(props) {
     setImage({ bytes: "", filename: "/quizaro.png" });
   };
 
+  const userSchema = object().shape({
+    firstName: string().required(),
+    email: string().email().required(),
+    password: string().min(8).required(),
+    mobile: string().min(10).required(),
+  });
+
+  async function validateForm() {
+    let dataObject = {
+      firstName: fname,
+      email: email,
+      password: password,
+      mobile: mobile,
+    };
+
+    const isValid = await userSchema.isValid(dataObject);
+
+    if (isValid) {
+      if (password !== cpassword) {
+        Swal.fire({
+          icon: "error",
+          title: "Password and Confirm Password Should be Same",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      } else {
+        handleSubmit();
+      }
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Fill all the details Carefully...",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }
   return (
     <div className={classes.root}>
       <style jsx>
@@ -146,48 +186,60 @@ function Admins(props) {
           <Grid item xs={2}>
             <CssTextField
               variant="outlined"
+              type="text"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Full Name"
+              value={fname}
               onChange={(event) => setFName(event.target.value)}
               fullWidth
+              required
             />
           </Grid>
           <Grid item xs={1.9}>
             <CssTextField
               variant="outlined"
+              type="email"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Email Id:"
+              value={email}
               onChange={(event) => setEmailId(event.target.value)}
               fullWidth
+              required
             />
           </Grid>
           <Grid item xs={1.8}>
             <CssTextField
               variant="outlined"
+              type="phone"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Mobile:"
+              value={mobile}
               onChange={(event) => setMobile(event.target.value)}
               fullWidth
+              required
             />
           </Grid>
 
           <Grid item xs={1.8}>
             <CssTextField
               variant="outlined"
+              type="password"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -199,7 +251,8 @@ function Admins(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Confirm Password"
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => setCPassword(event.target.value)}
+              value={cpassword}
               fullWidth
             />
           </Grid>
@@ -211,6 +264,7 @@ function Admins(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Detail:"
+              value={details}
               onChange={(event) => setDetails(event.target.value)}
               fullWidth
             />
@@ -227,6 +281,7 @@ function Admins(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Address:"
+              value={address}
               onChange={(event) => setAddress(event.target.value)}
               fullWidth
             />
@@ -236,7 +291,7 @@ function Admins(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 State:
               </InputLabel>
-              <Select onChange={(event) => setState(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="State">
+              <Select onChange={(event) => setState(event.target.value)} labelId="demo-simple-select-label" value={state} id="demo-simple-select" label="State">
                 <MenuItem value={"Andhra Pradesh"}>Andhra Pradesh </MenuItem>
                 <MenuItem value={"Arunachal Pradesh"}> Arunachal Pradesh</MenuItem>
                 <MenuItem value={"Assam"}>Assam</MenuItem>
@@ -266,6 +321,7 @@ function Admins(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="City:"
+              value={city}
               onChange={(event) => setCity(event.target.value)}
               fullWidth
             />
@@ -275,7 +331,13 @@ function Admins(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Country:
               </InputLabel>
-              <Select onChange={(event) => setCountry(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="Country">
+              <Select
+                onChange={(event) => setCountry(event.target.value)}
+                labelId="demo-simple-select-label"
+                value={country}
+                id="demo-simple-select"
+                label="Country"
+              >
                 <MenuItem value={"India"}>India</MenuItem>
               </Select>
             </FormControl>
@@ -288,6 +350,7 @@ function Admins(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Pincode:"
+              value={pincode}
               onChange={(event) => setPincode(event.target.value)}
               fullWidth
             />
@@ -298,11 +361,13 @@ function Admins(props) {
           <Grid item xs={3}>
             <CssTextField
               variant="outlined"
+              type="url"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Facebook Url:"
+              value={facebookurl}
               onChange={(event) => setFacebookUrl(event.target.value)}
               fullWidth
             />
@@ -310,11 +375,13 @@ function Admins(props) {
           <Grid item xs={3}>
             <CssTextField
               variant="outlined"
+              type="url"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Twitter Url:"
+              value={twitterurl}
               onChange={(event) => setTwitterUrl(event.target.value)}
               fullWidth
             />
@@ -322,11 +389,13 @@ function Admins(props) {
           <Grid item xs={3}>
             <CssTextField
               variant="outlined"
+              type="url"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Youtube Url:"
+              value={youtubeurl}
               onChange={(event) => setYoutubeUrl(event.target.value)}
               fullWidth
             />
@@ -334,11 +403,13 @@ function Admins(props) {
           <Grid item xs={3}>
             <CssTextField
               variant="outlined"
+              type="url"
               InputLabelProps={{
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Linkedin Url:"
+              value={linkedinurl}
               onChange={(event) => setLinkedinUrl(event.target.value)}
               fullWidth
             />
@@ -384,7 +455,7 @@ function Admins(props) {
               variant="contained"
               fullWidth
               value="Add"
-              onClick={() => handleSubmit()}
+              onClick={() => validateForm()}
             >
               Submit
             </Button>

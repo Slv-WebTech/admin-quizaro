@@ -41,17 +41,7 @@ const Input = styled("input")({
   display: "none",
 });
 
-const handleSubmit = () => {
-  const scriptURL = "https://script.google.com/macros/s/AKfycbyqMtsKkZydlNcJ0zcfUZxFSc5SCI2f12m8skrhelqEc263IUqpjxc-z0g_IaYqYrc4/exec";
-  const form = document.forms["google-sheet"];
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    fetch(scriptURL, { method: "POST", body: new FormData(form) })
-      .then((response) => alert("Thanks for Contacting us..! We Will Contact You Soon..."))
-      .catch((error) => console.error("Error!", error.message));
-  });
-};
+const handleSubmit = () => {};
 
 function Products(props) {
   const classes = useStyles();
@@ -127,10 +117,10 @@ function Products(props) {
             />
           </Grid>
           <Grid item xs={1}>
-          Status:  <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+            Status: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
           </Grid>
           <Grid item xs={1}>
-          Featured:  <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
+            Featured: <Switch checked={checked} onChange={handleChange} inputProps={{ "aria-label": "controlled" }} />
           </Grid>
           <Grid item xs={3}>
             <CssTextField

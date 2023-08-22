@@ -59,8 +59,8 @@ import AddLanguage from "./Add Language";
 import AddAdmin from "./Add Admin";
 import AddInstructor from "./Add Instructor";
 import AddStudent from "./Add Student";
-import AddUser from "./Add User";
-import UploadVideo from "./Upoad Video";
+import NewUser from "./New User";
+
 import AllStudents from "./AllStudents";
 import AllCourses from "./AllCourses";
 import AllInstructors from "./AllInstructors";
@@ -72,6 +72,7 @@ import AllCertifications from "./AllCertifications";
 import { Avatar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
+import CourseVideos from "./Coursevideos";
 
 export default function AdminListItems(props) {
   const handleClick = (v) => {
@@ -272,11 +273,11 @@ export default function AdminListItems(props) {
       </ListItemButton>
       <Collapse in={formopen} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItemButton onClick={() => handleClick(<AddUser setViewContainer={props.setViewContainer} />)}>
+          <ListItemButton onClick={() => handleClick(<NewUser setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
               <PersonAddIcon />
             </ListItemIcon>
-            <ListItemText primary="Add User" />
+            <ListItemText primary="New User" />
           </ListItemButton>
           <ListItemButton onClick={() => handleClick(<AddStudent setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
@@ -332,7 +333,7 @@ export default function AdminListItems(props) {
             </ListItemIcon>
             <ListItemText primary="Add Course" />
           </ListItemButton>
-          <ListItemButton onClick={() => handleClick(<UploadVideo setViewContainer={props.setViewContainer} />)}>
+          <ListItemButton onClick={() => handleClick(<CourseVideos setViewContainer={props.setViewContainer} />)}>
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>

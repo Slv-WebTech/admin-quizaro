@@ -10,6 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { postDataImage } from "./FetchNodeServices";
 import Swal from "sweetalert2";
+import { object, string } from "yup";
 
 const useStyles = makeStyles({
   root: {
@@ -44,11 +45,11 @@ const Input = styled("input")({
 
 function Students(props) {
   const classes = useStyles();
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
+  const [fname, setFName] = useState("");
   const [email, setEmailId] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
   const [details, setDetails] = useState("");
   const [collegename, setCollegeName] = useState("");
   const [year, setYear] = useState("");
@@ -70,8 +71,7 @@ function Students(props) {
   const handleSubmit = async () => {
     alert("Submit");
     var formData = new FormData();
-    formData.append("firstname", firstname);
-    formData.append("lastname", lastname);
+    formData.append("fname", fname);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("mobile", mobile);
@@ -96,6 +96,7 @@ function Students(props) {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClear();
     } else {
       Swal.fire({
         icon: "fail",
@@ -105,7 +106,64 @@ function Students(props) {
       });
     }
   };
+  const handleClear = () => {
+    setFName("");
+    setEmailId("");
+    setPassword("");
+    setCPassword("");
+    setMobile("");
+    setDetails("");
+    setCollegeName("");
+    setYear("");
+    setAddress("");
+    setCity("");
+    setState("");
+    setCountry("");
+    setPincode("");
+    setPYoutubeUrl("");
+    setTwitterUrl("");
+    setFacebookUrl("");
+    setLinkedinUrl("");
+    setImage({ bytes: "", filename: "/quizaro.png" });
+  };
+  const userSchema = object().shape({
+    firstName: string().required(),
+    email: string().email().required(),
+    password: string().min(8).required(),
+    mobile: string().min(10).required(),
+  });
 
+  async function validateForm() {
+    let dataObject = {
+      firstName: fname,
+      email: email,
+      password: password,
+      mobile: mobile,
+    };
+
+    const isValid = await userSchema.isValid(dataObject);
+
+    if (isValid) {
+      if (password !== cpassword) {
+        Swal.fire({
+          icon: "error",
+          title: "Password and Confirm Password Should be Same",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return;
+      } else {
+        handleSubmit();
+      }
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Fill all the details Carefully...",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  }
   return (
     <div className={classes.root}>
       <style jsx>
@@ -136,24 +194,14 @@ function Students(props) {
                 style: { color: "#FFF" },
               }}
               inputProps={{ style: { color: "#FFF" } }}
-              label="First Name:"
-              onChange={(event) => setFirstName(event.target.value)}
+              label="Full Name:"
+              value={fname}
+              onChange={(event) => setFName(event.target.value)}
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
-            <CssTextField
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: "#FFF" },
-              }}
-              inputProps={{ style: { color: "#FFF" } }}
-              label="Last Name"
-              onChange={(event) => setLastName(event.target.value)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={2.5}>
+
+          <Grid item xs={1.9}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -161,11 +209,12 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Email Id:"
+              value={email}
               onChange={(event) => setEmailId(event.target.value)}
               fullWidth
             />
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1.8}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -173,12 +222,13 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Mobile:"
+              value={mobile}
               onChange={(event) => setMobile(event.target.value)}
               fullWidth
             />
           </Grid>
 
-          <Grid item xs={2}>
+          <Grid item xs={1.8}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -186,6 +236,8 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
               fullWidth
             />
           </Grid>
@@ -197,11 +249,12 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Confirm Password"
-              onChange={(event) => setPassword(event.target.value)}
+              value={cpassword}
+              onChange={(event) => setCPassword(event.target.value)}
               fullWidth
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <CssTextField
               variant="outlined"
               InputLabelProps={{
@@ -209,6 +262,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Detail:"
+              value={details}
               onChange={(event) => setDetails(event.target.value)}
               fullWidth
             />
@@ -221,6 +275,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="College Name:"
+              value={collegename}
               onChange={(event) => setCollegeName(event.target.value)}
               fullWidth
             />
@@ -230,7 +285,7 @@ function Students(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Year Of Study:
               </InputLabel>
-              <Select onChange={(event) => setYear(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="Year">
+              <Select onChange={(event) => setYear(event.target.value)} labelId="demo-simple-select-label" value={year} id="demo-simple-select" label="Year">
                 <MenuItem value={"Ist"}>Ist Year </MenuItem>
                 <MenuItem value={"IInd"}>IInd Year</MenuItem>
                 <MenuItem value={"IIIrd"}>IIIrd Year </MenuItem>
@@ -249,6 +304,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Address:"
+              value={address}
               onChange={(event) => setAddress(event.target.value)}
               fullWidth
             />
@@ -258,7 +314,7 @@ function Students(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 State:
               </InputLabel>
-              <Select onChange={(event) => setState(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="State">
+              <Select onChange={(event) => setState(event.target.value)} labelId="demo-simple-select-label" value={state} id="demo-simple-select" label="State">
                 <MenuItem value={"Andhra Pradesh"}>Andhra Pradesh </MenuItem>
                 <MenuItem value={"Arunachal Pradesh"}> Arunachal Pradesh</MenuItem>
                 <MenuItem value={"Assam"}>Assam</MenuItem>
@@ -288,6 +344,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="City:"
+              value={city}
               onChange={(event) => setCity(event.target.value)}
               fullWidth
             />
@@ -297,7 +354,13 @@ function Students(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Country:
               </InputLabel>
-              <Select onChange={(event) => setCountry(event.target.value)} labelId="demo-simple-select-label" id="demo-simple-select" label="Country">
+              <Select
+                onChange={(event) => setCountry(event.target.value)}
+                labelId="demo-simple-select-label"
+                value={country}
+                id="demo-simple-select"
+                label="Country"
+              >
                 <MenuItem value={"India"}>India</MenuItem>
               </Select>
             </FormControl>
@@ -310,6 +373,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Pincode:"
+              value={pincode}
               onChange={(event) => setPincode(event.target.value)}
               fullWidth
             />
@@ -325,6 +389,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Facebook Url:"
+              value={facebookurl}
               onChange={(event) => setFacebookUrl(event.target.value)}
               fullWidth
             />
@@ -337,6 +402,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Twitter Url:"
+              value={twitterurl}
               onChange={(event) => setTwitterUrl(event.target.value)}
               fullWidth
             />
@@ -349,6 +415,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Youtube Url:"
+              value={youtubeurl}
               onChange={(event) => setPYoutubeUrl(event.target.value)}
               fullWidth
             />
@@ -361,6 +428,7 @@ function Students(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Linkedin Url:"
+              value={linkedinurl}
               onChange={(event) => setLinkedinUrl(event.target.value)}
               fullWidth
             />
@@ -406,7 +474,7 @@ function Students(props) {
               variant="contained"
               fullWidth
               value="Add"
-              onClick={() => handleSubmit()}
+              onClick={() => validateForm()}
             >
               Submit
             </Button>
@@ -420,6 +488,7 @@ function Students(props) {
               }}
               variant="contained"
               fullWidth
+              onClick={() => handleClear()}
             >
               Reset
             </Button>

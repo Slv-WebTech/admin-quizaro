@@ -185,6 +185,7 @@ function Courses(props) {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClear();
     } else {
       Swal.fire({
         icon: "fail",
@@ -193,6 +194,32 @@ function Courses(props) {
         timer: 1500,
       });
     }
+  };
+  const handleClear = () => {
+    setStreamId("");
+    setCourseName("");
+    setCertificationId("");
+    setInstructorId("");
+    setLanguage("");
+    setInstituteId("");
+    setTitle("");
+    setSlug("");
+    setSubTitle("");
+    setDescription("");
+    setTag("");
+    setCourseTag("");
+    setPaid(true);
+    setFeatured(true);
+    setRequirements("");
+    setUrl("");
+    setStatus(true);
+    setDuration("");
+    setInstructorRevenue("");
+    setPrice("");
+    setOfferPrice("");
+    setOfferAvailable("");
+    setAssignment(true);
+    setCertificate(true);
   };
   const handlePaidChange = (event) => {
     setPaid(event.target.checked);
@@ -251,6 +278,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Course Name"
+              value={coursename}
               onChange={(event) => setCourseName(event.target.value)}
               fullWidth
             />
@@ -314,6 +342,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Title:"
+              value={title}
               onChange={(event) => setTitle(event.target.value)}
               fullWidth
             />
@@ -326,6 +355,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Slug:"
+              value={slug}
               onChange={(event) => setSlug(event.target.value)}
               fullWidth
             />
@@ -338,6 +368,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="SubTitle"
+              value={subtitle}
               onChange={(event) => setSubTitle(event.target.value)}
               fullWidth
             />
@@ -350,6 +381,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Description"
+              value={description}
               onChange={(event) => setDescription(event.target.value)}
               fullWidth
             />
@@ -359,7 +391,7 @@ function Courses(props) {
               <InputLabel style={{ color: "#FFF" }} id="demo-simple-select-label">
                 Tag:
               </InputLabel>
-              <Select labelId="demo-simple-select-label" id="demo-simple-select" onChange={(event) => setTag(event.target.value)} label="Tag">
+              <Select labelId="demo-simple-select-label" value={tag} id="demo-simple-select" onChange={(event) => setTag(event.target.value)} label="Tag">
                 <MenuItem value={"Trending"}>Trending</MenuItem>
                 <MenuItem value={"Most Selling"}>Most Selling</MenuItem>
                 <MenuItem value={"Popular"}>Popular</MenuItem>
@@ -376,6 +408,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Course Tag"
+              value={coursetag}
               onChange={(event) => setCourseTag(event.target.value)}
               fullWidth
             />
@@ -399,6 +432,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Requirements"
+              value={requirements}
               onChange={(event) => setRequirements(event.target.value)}
               fullWidth
             />
@@ -412,6 +446,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="URL:"
+              value={url}
               onChange={(event) => setUrl(event.target.value)}
               fullWidth
             />
@@ -430,6 +465,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Duration:"
+              value={duration}
               onChange={(event) => setDuration(event.target.value)}
               fullWidth
             />
@@ -442,6 +478,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Instructor Revenue:"
+              value={instructorrevenue}
               onChange={(event) => setInstructorRevenue(event.target.value)}
               fullWidth
             />
@@ -454,6 +491,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Price"
+              value={price}
               onChange={(event) => setPrice(event.target.value)}
               fullWidth
             />
@@ -466,6 +504,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Offer Price"
+              value={offerprice}
               onChange={(event) => setOfferPrice(event.target.value)}
               fullWidth
             />
@@ -478,6 +517,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Offer Available"
+              value={offeravailable}
               onChange={(event) => setOfferAvailable(event.target.value)}
               fullWidth
             />
@@ -548,6 +588,7 @@ function Courses(props) {
               }}
               variant="contained"
               fullWidth
+              onClick={() => handleClear()}
             >
               Reset
             </Button>

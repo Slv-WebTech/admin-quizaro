@@ -58,6 +58,7 @@ function Courses(props) {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClear();
     } else {
       Swal.fire({
         icon: "fail",
@@ -66,6 +67,10 @@ function Courses(props) {
         timer: 1500,
       });
     }
+  };
+  const handleClear = () => {
+    setStream("");
+    setIcon({ bytes: "", filename: "/quizaro.png" });
   };
 
   return (
@@ -99,6 +104,7 @@ function Courses(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Stream"
+              value={stream}
               onChange={(event) => setStream(event.target.value)}
               fullWidth
             />
@@ -157,6 +163,7 @@ function Courses(props) {
               }}
               variant="contained"
               fullWidth
+              onClick={() => handleClear()}
             >
               Reset
             </Button>

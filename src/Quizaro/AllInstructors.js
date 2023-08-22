@@ -77,7 +77,7 @@ export default function DisplayAllInstructors(props) {
 
   const handleOpen = (rowData) => {
     setInstructorId(rowData.instructorid);
-    setInstructorName(rowData.firstname + rowData.lastname);
+    setInstructorName(rowData.fname );
     fetchCourse(rowData.course);
     setPending(rowData.pending);
     setAccessTill(rowData.accesstill);
@@ -299,8 +299,8 @@ export default function DisplayAllInstructors(props) {
             field: "image",
             render: (rowData) => <img src={`${serverURL}/images/${rowData.image}`} style={{ maxWidth: 70, borderRadius: "10%" }} alt="" />,
           },
-          { title: "First Name", field: "firstname" },
-          { title: "Last Name", field: "lastname" },
+          { title: "Instructor Name", field: "fname" },
+      
           { title: "Details", field: "details" },
           { title: "Course", field: "courseid" },
           { title: "Pending", field: "pending" },

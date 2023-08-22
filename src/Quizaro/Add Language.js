@@ -43,7 +43,7 @@ function Courses(props) {
     var formData = new FormData();
     formData.append("language", language);
     formData.append("region", region);
-    console.log(formData);
+    console.log(language);
     var result = await postData("language/savelanguage", formData);
     if (result.result) {
       Swal.fire({

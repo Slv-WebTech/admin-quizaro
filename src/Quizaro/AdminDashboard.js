@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styled, createTheme, ThemeProvider, alpha } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -12,9 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
-
 import Grid from "@mui/material/Unstable_Grid2";
-
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -29,6 +27,8 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Button from "@mui/material/Button";
+import { getData } from "./FetchNodeServices";
 
 function Copyright(props) {
   return (
@@ -92,11 +92,33 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const aopen = Boolean(anchorEl);
+  const [clist, setCList] = useState([]);
   const handleaClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleaClose = () => {
     setAnchorEl(null);
+  };
+  const [anchorE2, setAnchorE2] = React.useState(null);
+  const copen = Boolean(anchorE2);
+  const handlecClick = (event) => {
+    setAnchorE2(event.currentTarget);
+  };
+  const handlecClose = () => {
+    setAnchorE2(null);
+  };
+  const fetchCourse = async () => {
+    var result = await getData("courses/allcourses");
+    setCList(result.result);
+  };
+  useEffect(function () {
+    fetchCourse();
+  }, []);
+
+  const fillCourses = () => {
+    return clist.map((item) => {
+      return <MenuItem value={item.courseid}>{item.coursename}</MenuItem>;
+    });
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -173,6 +195,26 @@ function DashboardContent() {
               <MenuIcon />
             </IconButton>
             <img src="./quizaro.png" style={{ width: 60, height: 60 }} alt="logo" />
+            <Button
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handlecClick}
+            >
+              Course
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorE2={anchorE2}
+              open={copen}
+              onClose={handlecClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              {fillCourses()}
+            </Menu>
             <Typography
               component="h1"
               variant="h4"

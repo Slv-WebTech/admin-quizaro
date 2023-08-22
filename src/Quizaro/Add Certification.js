@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { styled } from "@mui/material/styles";
 import { Grid, TextField, Button, Avatar } from "@mui/material";
-
 import Swal from "sweetalert2";
-
 import dayjs from "dayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateField } from "@mui/x-date-pickers/DateField";
+
 // import { borderRadius } from "@mui/system";
 
 import { postDataImage } from "./FetchNodeServices";
@@ -74,6 +73,7 @@ function Certification(props) {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClear();
     } else {
       Swal.fire({
         icon: "fail",
@@ -82,6 +82,15 @@ function Certification(props) {
         timer: 1500,
       });
     }
+  };
+  const handleClear = () => {
+    setCertificationName("");
+    setCertifiedBy("");
+    setValidTill("");
+    setCredential("");
+    setUrl("");
+    setDescription("");
+    setIcon({ bytes: "", filename: "/quizaro.png" });
   };
 
   return (
@@ -115,6 +124,7 @@ function Certification(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Certification Name:"
+              value={certificationname}
               onChange={(event) => setCertificationName(event.target.value)}
               fullWidth
             />
@@ -127,15 +137,25 @@ function Certification(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Certified By:"
+              value={certifiedby}
               onChange={(event) => setCertifiedBy(event.target.value)}
               fullWidth
             />
           </Grid>
 
           <Grid item xs={1.5}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateField label="Valid Till" onChange={(event) => setValidTill(event)} format="LL" />
-            </LocalizationProvider>
+            <TextField
+              id="outlined-basic"
+              InputLabelProps={{
+                style: { color: "#FFF" },
+              }}
+              label="Valid Till"
+              value={validtill}
+              onChange={(event) => setValidTill(event.target.value)}
+              type="date"
+              variant="outlined"
+              fullWidth
+            />
           </Grid>
 
           <Grid item xs={1.5}>
@@ -146,6 +166,7 @@ function Certification(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="validation  credential :"
+              value={credential}
               onChange={(event) => setCredential(event.target.value)}
               fullWidth
             />
@@ -158,6 +179,7 @@ function Certification(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Description"
+              value={description}
               onChange={(event) => setDescription(event.target.value)}
               fullWidth
             />
@@ -170,6 +192,7 @@ function Certification(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="URL:"
+              value={url}
               onChange={(event) => setUrl(event.target.value)}
               fullWidth
             />
@@ -227,6 +250,7 @@ function Certification(props) {
               }}
               variant="contained"
               fullWidth
+              onClick={() => handleClear()}
             >
               Reset
             </Button>

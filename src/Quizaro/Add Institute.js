@@ -60,6 +60,7 @@ function Institute(props) {
         showConfirmButton: false,
         timer: 1500,
       });
+      handleClear();
     } else {
       Swal.fire({
         icon: "fail",
@@ -68,6 +69,12 @@ function Institute(props) {
         timer: 1500,
       });
     }
+  };
+
+  const handleClear = () => {
+    setInstituteName("");
+    setDescription("");
+    setIcon({ bytes: "", filename: "/quizaro.png" });
   };
 
   return (
@@ -101,6 +108,7 @@ function Institute(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Institution Name:"
+              value={institutename}
               onChange={(event) => setInstituteName(event.target.value)}
               fullWidth
             />
@@ -113,6 +121,7 @@ function Institute(props) {
               }}
               inputProps={{ style: { color: "#FFF" } }}
               label="Description"
+              value={description}
               onChange={(event) => setDescription(event.target.value)}
               fullWidth
             />
@@ -171,6 +180,7 @@ function Institute(props) {
               }}
               variant="contained"
               fullWidth
+              onClick={() => handleClear()}
             >
               Reset
             </Button>
